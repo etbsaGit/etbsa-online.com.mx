@@ -20,5 +20,12 @@
       </q-item-section>
       <q-item-section>Pedidos</q-item-section>
     </q-item>
+
+    <!-- <q-item to="/admin/customers" class="text-black">
+      <q-item-section avatar>
+        <q-icon name="face" />
+      </q-item-section>
+      <q-item-section>Pagina</q-item-section>
+    </q-item> -->
   </q-list>
 </template>

@@ -9,12 +9,7 @@
       </q-card-section>
       <q-form @submit.prevent="login(form)" class="q-gutter-md">
         <q-card-section>
-          <q-input
-            dense
-            outlined
-            v-model="form.email"
-            label="Email Address"
-          ></q-input>
+          <q-input dense outlined v-model="form.email" label="Email Address" />
           <q-input
             dense
             outlined
@@ -22,7 +17,7 @@
             v-model="form.password"
             type="password"
             label="Password"
-          ></q-input>
+          />
         </q-card-section>
         <q-card-section>
           <q-btn
@@ -34,7 +29,7 @@
             no-caps
             class="full-width"
             type="submit"
-          ></q-btn>
+          />
         </q-card-section>
       </q-form>
       <q-card-section class="text-center q-pt-none">
