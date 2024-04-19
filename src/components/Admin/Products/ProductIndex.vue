@@ -1,11 +1,11 @@
 <template>
   <q-item>
     <q-btn
-      label="Registrar Cliente"
+      label="Registrar Producto"
       dense
       color="primary"
-      icon="person_add"
-      @click="openNewCustomer"
+      icon="add"
+      @click="openNewProduct"
     />
   </q-item>
   <q-item>
@@ -16,10 +16,10 @@
         class="boton"
         color="green-9"
         v-model="searchTerm"
-        label="Buscar cliente"
+        label="Buscar Producto"
       >
         <template v-slot:prepend>
-          <q-icon name="person_search" />
+          <q-icon name="search" />
         </template>
       </q-input>
     </q-item-section>
@@ -43,14 +43,14 @@
   </q-table>
 
   <q-dialog
-    v-model="addCustomer"
+    v-model="addProduct"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
   >
     <q-card>
       <q-card-section class="d-flex justify-between items-center q-pa-sm">
-        <div class="text-h6">Nuevo Cliente</div>
+        <div class="text-h6">Nuevo Producto</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <!-- <q-btn
@@ -63,7 +63,7 @@
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <customer-form />
+        <product-form />
       </div>
     </q-card>
   </q-dialog>
@@ -71,13 +71,13 @@
 
 <script setup>
 import { ref } from "vue";
-import CustomerForm from "./CustomerForm.vue";
+import ProductForm from "src/components/Admin/Products/ProductForm.vue";
 
 const searchTerm = ref("");
-const addCustomer = ref(false);
+const addProduct = ref(false);
 
-const openNewCustomer = () => {
-  addCustomer.value = true;
+const openNewProduct = () => {
+  addProduct.value = true;
 };
 
 const columns = [
@@ -248,3 +248,4 @@ const rows = [
   overflow-y: auto;
 }
 </style>
+

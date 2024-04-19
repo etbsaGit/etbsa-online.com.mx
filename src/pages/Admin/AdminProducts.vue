@@ -9,7 +9,7 @@
       align="justify"
       narrow-indicator
     >
-      <q-tab name="mails" label="Mails" />
+      <q-tab name="productos" label="productos" />
       <q-tab name="alarms" label="Alarms" />
       <q-tab name="movies" label="Movies" />
     </q-tabs>
@@ -17,9 +17,8 @@
     <q-separator />
 
     <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="mails">
-        <div class="text-h6">Mails</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      <q-tab-panel name="productos">
+        <product-index />
       </q-tab-panel>
 
       <q-tab-panel name="alarms">
@@ -37,6 +36,7 @@
 
 <script setup>
 import { ref } from "vue";
+import ProductIndex from "src/components/Admin/Products/ProductIndex.vue";
 
-const tab = ref("mails");
+const tab = ref("productos");
 </script>

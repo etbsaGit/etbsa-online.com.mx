@@ -1,7 +1,5 @@
 <template>
-  <q-item-label header> Perfil </q-item-label>
-  <q-separator />
-  <div class="avatar-container">
+  <div class="avatar-container q-pa-sm">
     <q-avatar
       size="200px"
       color="dark"
