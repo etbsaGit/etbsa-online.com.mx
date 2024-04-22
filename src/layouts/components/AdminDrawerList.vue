@@ -4,7 +4,7 @@
       <q-item-section avatar>
         <q-icon name="face" />
       </q-item-section>
-      <q-item-section>Clientes</q-item-section>
+      <q-item-section>Usuarios</q-item-section>
     </q-item>
 
     <q-item to="/admin/products" class="text-black">

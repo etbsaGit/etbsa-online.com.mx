@@ -10,8 +10,8 @@
       narrow-indicator
     >
       <q-tab name="productos" label="productos" />
-      <q-tab name="alarms" label="Alarms" />
-      <q-tab name="movies" label="Movies" />
+      <q-tab name="Categorias" label="Categorias" />
+      <q-tab name="Marcas" label="Marcas" />
     </q-tabs>
 
     <q-separator />
@@ -21,14 +21,12 @@
         <product-index />
       </q-tab-panel>
 
-      <q-tab-panel name="alarms">
-        <div class="text-h6">Alarms</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      <q-tab-panel name="Categorias">
+        <category-index />
       </q-tab-panel>
 
-      <q-tab-panel name="movies">
-        <div class="text-h6">Movies</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      <q-tab-panel name="Marcas">
+        <brand-index />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -37,6 +35,14 @@
 <script setup>
 import { ref } from "vue";
 import ProductIndex from "src/components/Admin/Products/ProductIndex.vue";
+import BrandIndex from "src/components/Admin/Products/BrandIndex.vue";
+import CategoryIndex from "src/components/Admin/Products/CategoryIndex.vue";
 
 const tab = ref("productos");
 </script>
+
+<style>
+.q-tab-panel {
+  padding: 0 !important;
+}
+</style>

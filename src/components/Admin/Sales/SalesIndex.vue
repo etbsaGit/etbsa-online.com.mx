@@ -24,23 +24,45 @@
       </q-input>
     </q-item-section>
   </q-item>
-
-  <q-table :rows="rows" :columns="columns" row-key="name">
-    <template v-slot:body-cell-actions="props">
-      <q-td :props="props">
-        <q-btn-dropdown flat color="grey" icon="menu" dense>
-          <q-list v-close-popup>
-            <q-item>
-              <q-btn flat size="sm" label="Editar" color="blue" icon="edit" />
-            </q-item>
-            <q-item>
-              <q-btn flat size="sm" label="Borrar" color="red" icon="delete" />
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </q-td>
-    </template>
-  </q-table>
+  <q-item>
+    <q-item-section>
+      <q-table
+        bordered
+        flat
+        :rows="rows"
+        :columns="columns"
+        row-key="name"
+        :rows-per-page-options="[0]"
+      >
+        <template v-slot:body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn-dropdown flat color="grey" icon="menu" dense>
+              <q-list v-close-popup>
+                <q-item>
+                  <q-btn
+                    flat
+                    size="sm"
+                    label="Editar"
+                    color="blue"
+                    icon="edit"
+                  />
+                </q-item>
+                <q-item>
+                  <q-btn
+                    flat
+                    size="sm"
+                    label="Borrar"
+                    color="red"
+                    icon="delete"
+                  />
+                </q-item>
+              </q-list>
+            </q-btn-dropdown>
+          </q-td>
+        </template>
+      </q-table>
+    </q-item-section>
+  </q-item>
 
   <q-dialog
     v-model="addSale"
@@ -49,7 +71,7 @@
     persistent
   >
     <q-card>
-      <q-card-section class="d-flex justify-between items-center q-pa-sm">
+      <q-card-section class="d-flex q-pa-sm">
         <div class="text-h6">Nuevo pedido</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
@@ -223,29 +245,10 @@ const rows = [
 </script>
 
 <style>
-.my-table-details {
-  font-size: 0.85em;
-  font-style: italic;
-  max-width: 200px;
-  white-space: normal;
-  color: #555;
-  margin-top: 4px;
-}
 .d-flex {
   display: flex;
-}
-
-.justify-between {
   justify-content: space-between;
-}
-
-.items-center {
   align-items: center;
-}
-
-.survey-form-container {
-  max-height: 600px; /* Ajusta este valor según tus necesidades */
-  overflow-y: auto;
 }
 </style>
 

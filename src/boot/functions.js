@@ -73,3 +73,11 @@ export function checkRole(role) {
   const usuario = authStore.authUser;
   return usuario.roles.some((usuarioRol) => usuarioRol.name === role);
 }
+
+export function checkPermissions(permission) {
+  const authStore = useAuthStore();
+  const usuario = authStore.authUser;
+  return usuario.permissions.some(
+    (usuarioPermission) => usuarioPermission.name === permission
+  );
+}

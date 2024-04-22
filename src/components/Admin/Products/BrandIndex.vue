@@ -1,11 +1,11 @@
 <template>
   <q-item>
     <q-btn
-      label="Registrar Producto"
+      label="Registrar marca"
       dense
       color="primary"
       icon="add"
-      @click="openNewProduct"
+      @click="openNewBrand"
     />
   </q-item>
   <q-item>
@@ -16,7 +16,7 @@
         class="boton"
         color="green-9"
         v-model="searchTerm"
-        label="Buscar Producto"
+        label="Buscar marca"
       >
         <template v-slot:prepend>
           <q-icon name="search" />
@@ -65,14 +65,14 @@
   </q-item>
 
   <q-dialog
-    v-model="addProduct"
+    v-model="addBrand"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Nuevo Producto</div>
+        <div class="text-h6">Nueva marca</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <!-- <q-btn
@@ -85,7 +85,7 @@
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <product-form />
+        <brand-form />
       </div>
     </q-card>
   </q-dialog>
@@ -93,13 +93,13 @@
 
 <script setup>
 import { ref } from "vue";
-import ProductForm from "src/components/Admin/Products/ProductForm.vue";
+import BrandForm from "src/components/Admin/Products/BrandForm.vue";
 
 const searchTerm = ref("");
-const addProduct = ref(false);
+const addBrand = ref(false);
 
-const openNewProduct = () => {
-  addProduct.value = true;
+const openNewBrand = () => {
+  addBrand.value = true;
 };
 
 const columns = [

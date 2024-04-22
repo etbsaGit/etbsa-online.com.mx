@@ -40,3 +40,9 @@ import SalesIndex from "src/components/Admin/Sales/SalesIndex.vue";
 
 const tab = ref("pedidos");
 </script>
+
+<style>
+.q-tab-panel {
+  padding: 0 !important;
+}
+</style>

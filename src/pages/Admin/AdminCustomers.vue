@@ -10,8 +10,7 @@
       narrow-indicator
     >
       <q-tab name="clientes" label="Clientes" />
-      <q-tab name="alarms" label="Alarms" />
-      <q-tab name="movies" label="Movies" />
+      <q-tab name="proveedores" label="proveedores" />
     </q-tabs>
 
     <q-separator />
@@ -21,14 +20,8 @@
         <customer-index />
       </q-tab-panel>
 
-      <q-tab-panel name="alarms">
-        <div class="text-h6">Alarms</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      </q-tab-panel>
-
-      <q-tab-panel name="movies">
-        <div class="text-h6">Movies</div>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      <q-tab-panel name="proveedores">
+        <supplier-index />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -37,6 +30,13 @@
 <script setup>
 import { ref } from "vue";
 import CustomerIndex from "src/components/Admin/Customers/CustomerIndex.vue";
+import SupplierIndex from "src/components/Admin/Customers/SupplierIndex.vue";
 
 const tab = ref("clientes");
 </script>
+
+<style>
+.q-tab-panel {
+  padding: 0 !important;
+}
+</style>
