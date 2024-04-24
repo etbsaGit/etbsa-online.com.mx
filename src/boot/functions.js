@@ -17,7 +17,13 @@ const sleep = (miliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, miliseconds));
 };
 
-export async function sendRequest(method, params, url, redirect = "") {
+export async function sendRequest(
+  method,
+  params,
+  url,
+  redirect = "",
+  forceFormData = false
+) {
   const authStore = useAuthStore();
   axios.defaults.headers.common[
     "Authorization"
@@ -27,7 +33,16 @@ export async function sendRequest(method, params, url, redirect = "") {
     Loading.show({
       spinner: QSpinnerGears,
     });
-    const response = await axios({ method: method, url: url, data: params });
+
+    const formData = new FormData();
+    if (forceFormData) {
+      Object.entries(params).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+    }
+
+    let payload = forceFormData ? formData : params;
+    const response = await axios({ method: method, url: url, data: payload });
     const data = response.data;
     if (method == "POST" || method == "PUT") {
       show_notify("Registro cargado", "publish", "blue", "");
