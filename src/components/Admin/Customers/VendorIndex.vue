@@ -1,11 +1,11 @@
 <template>
   <q-item>
     <q-btn
-      label="Registrar Categoria"
+      label="Registrar Proveedor"
       dense
       color="primary"
       icon="add"
-      @click="addCategory = true"
+      @click="addVendor = true"
     />
   </q-item>
   <q-item>
@@ -16,7 +16,7 @@
         class="boton"
         color="green-9"
         v-model="searchTerm"
-        label="Buscar Categoria"
+        label="Buscar Proveedor"
       >
         <template v-slot:prepend>
           <q-icon name="search" />
@@ -26,13 +26,7 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table
-        bordered
-        flat
-        :rows="categories"
-        :columns="columns"
-        row-key="name"
-      >
+      <q-table bordered flat :rows="vendors" :columns="columns" row-key="name">
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown flat color="grey" icon="menu" dense>
@@ -66,57 +60,57 @@
   </q-item>
 
   <q-dialog
-    v-model="addCategory"
+    v-model="addVendor"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Nueva Categoria</div>
+        <div class="text-h6">Nueva Proveedor</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <q-btn
-            label="Agregar categoria"
+            label="Agregar proveedor"
             color="blue"
-            @click="storeCategory()"
+            @click="storeVendor()"
           />
         </q-card-actions>
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <category-form ref="add" />
+        <vendor-form ref="add" />
       </div>
     </q-card>
   </q-dialog>
 
   <q-dialog
-    v-model="editCategory"
+    v-model="editVendor"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Editar Categoria {{ selectedCategory.name }}</div>
+        <div class="text-h6">Editar Proveedor {{ selectedVendor.name }}</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <q-btn
-            label="Actualizar categoria"
+            label="Actualizar proveedor"
             color="blue"
-            @click="updateCategory()"
+            @click="updateVendor()"
           />
         </q-card-actions>
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <category-form ref="edit" :category="selectedCategory" />
+        <vendor-form ref="edit" :vendor="selectedVendor" />
       </div>
     </q-card>
   </q-dialog>
 
   <q-dialog
-    v-model="deleteCategory"
+    v-model="deleteVendor"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
@@ -124,12 +118,12 @@
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
         <div class="text-h6">
-          Estas seguro de borrar Categoria {{ selectedCategory.name }}
+          Estas seguro de borrar Proveedor {{ selectedVendor.name }}
         </div>
       </q-card-section>
       <q-card-actions align="right">
         <q-btn label="Cerrar" color="red" v-close-popup />
-        <q-btn label="Borrar categoria" color="blue" @click="delCategory()" />
+        <q-btn label="Borrar proveedor" color="blue" @click="delVendor()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -139,16 +133,16 @@
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { sendRequest } from "src/boot/functions";
-import CategoryForm from "src/components/Admin/Products/CategoryForm.vue";
+import VendorForm from "src/components/Admin/Customers/VendorForm.vue";
 
 const $q = useQuasar();
 
 const searchTerm = ref("");
-const addCategory = ref(false);
-const editCategory = ref(false);
-const deleteCategory = ref(false);
-const categories = ref([]);
-const selectedCategory = ref(null);
+const addVendor = ref(false);
+const editVendor = ref(false);
+const deleteVendor = ref(false);
+const vendors = ref([]);
+const selectedVendor = ref(null);
 const add = ref(null);
 const edit = ref(null);
 
@@ -170,21 +164,21 @@ const columns = [
 ];
 
 const onRowEdit = (row) => {
-  selectedCategory.value = row;
-  editCategory.value = true;
+  selectedVendor.value = row;
+  editVendor.value = true;
 };
 
 const onRowDelete = (row) => {
-  selectedCategory.value = row;
-  deleteCategory.value = true;
+  selectedVendor.value = row;
+  deleteVendor.value = true;
 };
 
-const getCategories = async () => {
-  let res = await sendRequest("GET", null, "/api/categories", "");
-  categories.value = res.items.data;
+const getVendors = async () => {
+  let res = await sendRequest("GET", null, "/api/vendors", "");
+  vendors.value = res.data.data;
 };
 
-const storeCategory = async () => {
+const storeVendor = async () => {
   const add_valid = await add.value.validate();
   if (!add_valid) {
     $q.notify({
@@ -196,14 +190,14 @@ const storeCategory = async () => {
     return;
   }
   const data = {
-    ...add.value.formCategory,
+    ...add.value.formVendor,
   };
-  let res = await sendRequest("POST", data, "/api/categories", "");
-  addCategory.value = false;
-  getCategories();
+  let res = await sendRequest("POST", data, "/api/vendors", "");
+  addVendor.value = false;
+  getVendors();
 };
 
-const updateCategory = async () => {
+const updateVendor = async () => {
   const edit_valid = await edit.value.validate();
   if (!edit_valid) {
     $q.notify({
@@ -215,31 +209,31 @@ const updateCategory = async () => {
     return;
   }
   const data = {
-    ...edit.value.formCategory,
+    ...edit.value.formVendor,
   };
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/categories/" + selectedCategory.value.id,
+    "/api/vendors/" + selectedVendor.value.id,
     ""
   );
-  editCategory.value = false;
-  getCategories();
+  editVendor.value = false;
+  getVendors();
 };
 
-const delCategory = async () => {
+const delVendor = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/categories/" + selectedCategory.value.id,
+    "/api/vendors/" + selectedVendor.value.id,
     ""
   );
-  deleteCategory.value = false;
-  getCategories();
+  deleteVendor.value = false;
+  getVendors();
 };
 
 onMounted(() => {
-  getCategories();
+  getVendors();
 });
 </script>
 

@@ -5,8 +5,8 @@
         <q-input
           dense
           outlined
-          v-model="formCategory.name"
-          label="Nombre de la categoria"
+          v-model="formVendor.name"
+          label="Nombre del proveedor"
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'Obligatorio']"
         />
@@ -20,11 +20,11 @@ import { ref } from "vue";
 
 const myForm = ref(null);
 
-const { category } = defineProps(["category"]);
+const { vendor } = defineProps(["vendor"]);
 
-const formCategory = ref({
-  id: category ? category.id : null,
-  name: category ? category.name : null,
+const formVendor = ref({
+  id: vendor ? vendor.id : null,
+  name: vendor ? vendor.name : null,
 });
 
 const validate = async () => {
@@ -32,7 +32,7 @@ const validate = async () => {
 };
 
 defineExpose({
-  formCategory,
+  formVendor,
   validate,
 });
 </script>

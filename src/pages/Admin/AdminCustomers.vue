@@ -21,7 +21,7 @@
       </q-tab-panel>
 
       <q-tab-panel name="proveedores">
-        <supplier-index />
+        <vendor-index />
       </q-tab-panel>
     </q-tab-panels>
   </q-card>
@@ -30,7 +30,7 @@
 <script setup>
 import { ref } from "vue";
 import CustomerIndex from "src/components/Admin/Customers/CustomerIndex.vue";
-import SupplierIndex from "src/components/Admin/Customers/SupplierIndex.vue";
+import VendorIndex from "src/components/Admin/Customers/VendorIndex.vue";
 
 const tab = ref("clientes");
 </script>

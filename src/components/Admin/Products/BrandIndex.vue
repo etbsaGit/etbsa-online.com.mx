@@ -1,11 +1,11 @@
 <template>
   <q-item>
     <q-btn
-      label="Registrar marca"
+      label="Registrar Marca"
       dense
       color="primary"
       icon="add"
-      @click="openNewBrand"
+      @click="addBrand = true"
     />
   </q-item>
   <q-item>
@@ -16,7 +16,7 @@
         class="boton"
         color="green-9"
         v-model="searchTerm"
-        label="Buscar marca"
+        label="Buscar Marca"
       >
         <template v-slot:prepend>
           <q-icon name="search" />
@@ -26,14 +26,7 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table
-        bordered
-        flat
-        :rows="rows"
-        :columns="columns"
-        row-key="name"
-        :rows-per-page-options="[0]"
-      >
+      <q-table bordered flat :rows="brands" :columns="columns" row-key="name">
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown flat color="grey" icon="menu" dense>
@@ -45,6 +38,7 @@
                     label="Editar"
                     color="blue"
                     icon="edit"
+                    @click="onRowEdit(props.row)"
                   />
                 </q-item>
                 <q-item>
@@ -54,6 +48,7 @@
                     label="Borrar"
                     color="red"
                     icon="delete"
+                    @click="onRowDelete(props.row)"
                   />
                 </q-item>
               </q-list>
@@ -72,176 +67,172 @@
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Nueva marca</div>
+        <div class="text-h6">Nueva Marca</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
-          <!-- <q-btn
-            label="Modificar tecnico"
-            color="blue"
-            @click="putTechnicians()"
-            v-close-popup
-          /> -->
+          <q-btn label="Agregar marca" color="blue" @click="storeBrand()" />
         </q-card-actions>
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <brand-form />
+        <brand-form ref="add" />
       </div>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog
+    v-model="editBrand"
+    transition-show="rotate"
+    transition-hide="rotate"
+    persistent
+  >
+    <q-card>
+      <q-card-section class="d-flex q-pa-sm">
+        <div class="text-h6">Editar Marca {{ selectedBrand.name }}</div>
+        <q-card-actions align="right">
+          <q-btn label="Cerrar" color="red" v-close-popup />
+          <q-btn label="Actualizar marca" color="blue" @click="updateBrand()" />
+        </q-card-actions>
+      </q-card-section>
+      <q-separator />
+      <div class="q-pa-sm">
+        <brand-form ref="edit" :brand="selectedBrand" />
+      </div>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog
+    v-model="deleteBrand"
+    transition-show="rotate"
+    transition-hide="rotate"
+    persistent
+  >
+    <q-card>
+      <q-card-section class="d-flex q-pa-sm">
+        <div class="text-h6">
+          Estas seguro de borrar Marca {{ selectedBrand.name }}
+        </div>
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn label="Cerrar" color="red" v-close-popup />
+        <q-btn label="Borrar marca" color="blue" @click="delBrand()" />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useQuasar } from "quasar";
+import { sendRequest } from "src/boot/functions";
 import BrandForm from "src/components/Admin/Products/BrandForm.vue";
+
+const $q = useQuasar();
 
 const searchTerm = ref("");
 const addBrand = ref(false);
-
-const openNewBrand = () => {
-  addBrand.value = true;
-};
+const editBrand = ref(false);
+const deleteBrand = ref(false);
+const brands = ref([]);
+const selectedBrand = ref(null);
+const add = ref(null);
+const edit = ref(null);
 
 const columns = [
+  { name: "id", label: "ID", align: "left", field: "id", sortable: true },
   {
     name: "name",
-    required: true,
-    label: "Dessert (100g serving)",
+    label: "Nombre",
     align: "left",
-    field: (row) => row.name,
-    format: (val) => `${val}`,
+    field: "name",
     sortable: true,
   },
   {
-    name: "calories",
-    align: "center",
-    label: "Calories",
-    field: "calories",
-    sortable: true,
+    name: "actions",
+    label: "Acciones",
+    align: "left",
+    sortable: false,
   },
-  { name: "fat", label: "Fat (g)", field: "fat", sortable: true },
-  { name: "carbs", label: "Carbs (g)", field: "carbs" },
-  { name: "protein", label: "Protein (g)", field: "protein" },
-  { name: "sodium", label: "Sodium (mg)", field: "sodium" },
-  {
-    name: "calcium",
-    label: "Calcium (%)",
-    field: "calcium",
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
-  },
-  {
-    name: "iron",
-    label: "Iron (%)",
-    field: "iron",
-    sortable: true,
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10),
-  },
-  { name: "actions", label: "Actions", field: "actions" },
 ];
 
-const rows = [
-  {
-    name: "Frozen Yogurt",
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: "14%",
-    iron: "1%",
-  },
-  {
-    name: "Ice cream sandwich",
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: "8%",
-    iron: "1%",
-  },
-  {
-    name: "Eclair",
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: "6%",
-    iron: "7%",
-  },
-  {
-    name: "Cupcake",
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: "3%",
-    iron: "8%",
-  },
-  {
-    name: "Gingerbread",
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: "7%",
-    iron: "16%",
-  },
-  {
-    name: "Jelly bean",
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: "0%",
-    iron: "0%",
-  },
-  {
-    name: "Lollipop",
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: "0%",
-    iron: "2%",
-  },
-  {
-    name: "Honeycomb",
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: "0%",
-    iron: "45%",
-  },
-  {
-    name: "Donut",
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: "2%",
-    iron: "22%",
-  },
-  {
-    name: "KitKat",
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: "12%",
-    iron: "6%",
-  },
-];
+const onRowEdit = (row) => {
+  selectedBrand.value = row;
+  editBrand.value = true;
+};
+
+const onRowDelete = (row) => {
+  selectedBrand.value = row;
+  deleteBrand.value = true;
+};
+
+const getBrands = async () => {
+  let res = await sendRequest("GET", null, "/api/brands", "");
+  brands.value = res.data.data;
+};
+
+const storeBrand = async () => {
+  const add_valid = await add.value.validate();
+  if (!add_valid) {
+    $q.notify({
+      color: "red-5",
+      textColor: "white",
+      icon: "warning",
+      message: "Por favor completa todos los campos obligatorios",
+    });
+    return;
+  }
+  const data = {
+    ...add.value.formBrand,
+  };
+  let res = await sendRequest(
+    "POST",
+    add.value.formBrand,
+    "/api/brands",
+    "",
+    true
+  );
+  addBrand.value = false;
+  getBrands();
+};
+
+const updateBrand = async () => {
+  const edit_valid = await edit.value.validate();
+  if (!edit_valid) {
+    $q.notify({
+      color: "red-5",
+      textColor: "white",
+      icon: "warning",
+      message: "Por favor completa todos los campos obligatorios",
+    });
+    return;
+  }
+  const data = {
+    ...edit.value.formBrand,
+  };
+  let res = await sendRequest(
+    "PUT",
+    data,
+    "/api/brands/" + selectedBrand.value.id,
+    ""
+  );
+  editBrand.value = false;
+  getBrands();
+};
+
+const delBrand = async () => {
+  let res = await sendRequest(
+    "DELETE",
+    null,
+    "/api/brands/" + selectedBrand.value.id,
+    ""
+  );
+  deleteBrand.value = false;
+  getBrands();
+};
+
+onMounted(() => {
+  getBrands();
+});
 </script>
 
 <style>
