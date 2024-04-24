@@ -208,9 +208,10 @@ const updateBrand = async () => {
   }
   const data = {
     ...edit.value.formBrand,
+    _method: "PUT",
   };
   let res = await sendRequest(
-    "PUT",
+    "POST",
     data,
     "/api/brands/" + selectedBrand.value.id,
     ""
