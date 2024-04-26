@@ -1,3 +1,5 @@
+import { adminPage, guest } from "./middleware";
+
 const routes = [
   {
     path: "/",
@@ -14,6 +16,9 @@ const routes = [
   {
     path: "/auth/",
     component: () => import("layouts/AuthLayout.vue"),
+    meta: {
+      middlewares: [guest],
+    },
     children: [
       { path: "login", component: () => import("pages/Auth/AuthLogin.vue") },
       {
@@ -25,6 +30,9 @@ const routes = [
   {
     path: "/admin/",
     component: () => import("layouts/AdminLayout.vue"),
+    meta: {
+      middlewares: [adminPage],
+    },
     children: [
       { path: "", component: () => import("pages/Admin/AdminHome.vue") },
       {

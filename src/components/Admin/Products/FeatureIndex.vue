@@ -1,11 +1,11 @@
 <template>
   <q-item>
     <q-btn
-      label="Registrar Categoria"
+      label="Registrar caracteristica"
       dense
       color="primary"
       icon="add"
-      @click="addCategory = true"
+      @click="addFeature = true"
     />
   </q-item>
   <q-item>
@@ -16,7 +16,7 @@
         class="boton"
         color="green-9"
         v-model="searchTerm"
-        label="Buscar Categoria"
+        label="Buscar caracteristica"
       >
         <template v-slot:prepend>
           <q-icon name="search" />
@@ -26,13 +26,7 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table
-        bordered
-        flat
-        :rows="categories"
-        :columns="columns"
-        row-key="name"
-      >
+      <q-table bordered flat :rows="features" :columns="columns" row-key="name">
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown flat color="grey" icon="menu" dense>
@@ -66,57 +60,32 @@
   </q-item>
 
   <q-dialog
-    v-model="addCategory"
+    v-model="addFeature"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Nueva Categoria</div>
+        <div class="text-h6">Nueva caracteristica</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <q-btn
-            label="Agregar categoria"
+            label="Agregar caracteristica"
             color="blue"
-            @click="storeCategory()"
+            @click="storeFeature()"
           />
         </q-card-actions>
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <category-form ref="add" />
+        <feature-form ref="add" />
       </div>
     </q-card>
   </q-dialog>
 
   <q-dialog
-    v-model="editCategory"
-    transition-show="rotate"
-    transition-hide="rotate"
-    persistent
-  >
-    <q-card>
-      <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Editar Categoria {{ selectedCategory.name }}</div>
-        <q-card-actions align="right">
-          <q-btn label="Cerrar" color="red" v-close-popup />
-          <q-btn
-            label="Actualizar categoria"
-            color="blue"
-            @click="updateCategory()"
-          />
-        </q-card-actions>
-      </q-card-section>
-      <q-separator />
-      <div class="q-pa-sm">
-        <category-form ref="edit" :category="selectedCategory" />
-      </div>
-    </q-card>
-  </q-dialog>
-
-  <q-dialog
-    v-model="deleteCategory"
+    v-model="editFeature"
     transition-show="rotate"
     transition-hide="rotate"
     persistent
@@ -124,12 +93,39 @@
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
         <div class="text-h6">
-          Estas seguro de borrar Categoria {{ selectedCategory.name }}
+          Editar caracteristica {{ selectedFeature.name }}
+        </div>
+        <q-card-actions align="right">
+          <q-btn label="Cerrar" color="red" v-close-popup />
+          <q-btn
+            label="Actualizar caracteristica"
+            color="blue"
+            @click="updateFeature()"
+          />
+        </q-card-actions>
+      </q-card-section>
+      <q-separator />
+      <div class="q-pa-sm">
+        <feature-form ref="edit" :feature="selectedFeature" />
+      </div>
+    </q-card>
+  </q-dialog>
+
+  <q-dialog
+    v-model="deleteFeature"
+    transition-show="rotate"
+    transition-hide="rotate"
+    persistent
+  >
+    <q-card>
+      <q-card-section class="d-flex q-pa-sm">
+        <div class="text-h6">
+          Estas seguro de borrar caracteristica {{ selectedFeature.name }}
         </div>
       </q-card-section>
       <q-card-actions align="right">
         <q-btn label="Cerrar" color="red" v-close-popup />
-        <q-btn label="Borrar categoria" color="blue" @click="delCategory()" />
+        <q-btn label="Borrar categoria" color="blue" @click="delFeature()" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -139,16 +135,16 @@
 import { ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
 import { sendRequest } from "src/boot/functions";
-import CategoryForm from "src/components/Admin/Products/CategoryForm.vue";
+import FeatureForm from "src/components/Admin/Products/FeatureForm.vue";
 
 const $q = useQuasar();
 
 const searchTerm = ref("");
-const addCategory = ref(false);
-const editCategory = ref(false);
-const deleteCategory = ref(false);
-const categories = ref([]);
-const selectedCategory = ref(null);
+const addFeature = ref(false);
+const editFeature = ref(false);
+const deleteFeature = ref(false);
+const features = ref([]);
+const selectedFeature = ref(null);
 const add = ref(null);
 const edit = ref(null);
 
@@ -170,21 +166,21 @@ const columns = [
 ];
 
 const onRowEdit = (row) => {
-  selectedCategory.value = row;
-  editCategory.value = true;
+  selectedFeature.value = row;
+  editFeature.value = true;
 };
 
 const onRowDelete = (row) => {
-  selectedCategory.value = row;
-  deleteCategory.value = true;
+  selectedFeature.value = row;
+  deleteFeature.value = true;
 };
 
-const getCategories = async () => {
-  let res = await sendRequest("GET", null, "/api/categories", "");
-  categories.value = res;
+const getFeatures = async () => {
+  let res = await sendRequest("GET", null, "/api/features", "");
+  features.value = res;
 };
 
-const storeCategory = async () => {
+const storeFeature = async () => {
   const add_valid = await add.value.validate();
   if (!add_valid) {
     $q.notify({
@@ -196,14 +192,14 @@ const storeCategory = async () => {
     return;
   }
   const data = {
-    ...add.value.formCategory,
+    ...add.value.formFeature,
   };
-  let res = await sendRequest("POST", data, "/api/categories", "");
-  addCategory.value = false;
-  getCategories();
+  let res = await sendRequest("POST", data, "/api/features", "");
+  addFeature.value = false;
+  getFeatures();
 };
 
-const updateCategory = async () => {
+const updateFeature = async () => {
   const edit_valid = await edit.value.validate();
   if (!edit_valid) {
     $q.notify({
@@ -215,31 +211,31 @@ const updateCategory = async () => {
     return;
   }
   const data = {
-    ...edit.value.formCategory,
+    ...edit.value.formFeature,
   };
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/categories/" + selectedCategory.value.id,
+    "/api/features/" + selectedFeature.value.id,
     ""
   );
-  editCategory.value = false;
-  getCategories();
+  editFeature.value = false;
+  getFeatures();
 };
 
-const delCategory = async () => {
+const delFeature = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/categories/" + selectedCategory.value.id,
+    "/api/features/" + selectedFeature.value.id,
     ""
   );
-  deleteCategory.value = false;
-  getCategories();
+  deleteFeature.value = false;
+  getFeatures();
 };
 
 onMounted(() => {
-  getCategories();
+  getFeatures();
 });
 </script>
 

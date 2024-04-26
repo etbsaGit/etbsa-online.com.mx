@@ -1,7 +1,7 @@
 <template>
   <q-item>
     <q-btn
-      label="Registrar Proveedor"
+      label="Registrar Marca"
       dense
       color="primary"
       icon="add"
@@ -16,7 +16,7 @@
         class="boton"
         color="green-9"
         v-model="searchTerm"
-        label="Buscar Proveedor"
+        label="Buscar Marca"
       >
         <template v-slot:prepend>
           <q-icon name="search" />
@@ -55,6 +55,28 @@
             </q-btn-dropdown>
           </q-td>
         </template>
+        <template v-slot:body-cell-name="props">
+          <q-td>
+            <q-item class="q-my-none" dense>
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  v-if="props.row.logo && props.row.logopath"
+                >
+                  <img :src="props.row.logopath" alt="Foto del proveedor" />
+                </q-avatar>
+                <q-avatar v-else color="primary" text-color="white">
+                  {{ props.row.name.charAt(0).toUpperCase()
+                  }}{{ props.row.name.charAt(1).toUpperCase() }}
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ props.row.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-td>
+        </template>
       </q-table>
     </q-item-section>
   </q-item>
@@ -67,7 +89,7 @@
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Nueva Proveedor</div>
+        <div class="text-h6">Nueva Marca</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <q-btn
@@ -92,7 +114,7 @@
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Editar Proveedor {{ selectedVendor.name }}</div>
+        <div class="text-h6">Editar proveedor {{ selectedVendor.name }}</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <q-btn
@@ -118,7 +140,7 @@
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
         <div class="text-h6">
-          Estas seguro de borrar Proveedor {{ selectedVendor.name }}
+          Estas seguro de borrar Marca {{ selectedVendor.name }}
         </div>
       </q-card-section>
       <q-card-actions align="right">
@@ -175,7 +197,7 @@ const onRowDelete = (row) => {
 
 const getVendors = async () => {
   let res = await sendRequest("GET", null, "/api/vendors", "");
-  vendors.value = res.data.data;
+  vendors.value = res;
 };
 
 const storeVendor = async () => {

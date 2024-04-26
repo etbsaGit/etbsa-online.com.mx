@@ -12,6 +12,7 @@
       <q-tab name="productos" label="productos" />
       <q-tab name="Categorias" label="Categorias" />
       <q-tab name="Marcas" label="Marcas" />
+      <q-tab name="Caracteristicas" label="Caracteristicas" />
     </q-tabs>
 
     <q-separator />
@@ -28,6 +29,10 @@
       <q-tab-panel name="Marcas">
         <brand-index />
       </q-tab-panel>
+
+      <q-tab-panel name="Caracteristicas">
+        <feature-index />
+      </q-tab-panel>
     </q-tab-panels>
   </q-card>
 </template>
@@ -37,6 +42,7 @@ import { ref } from "vue";
 import ProductIndex from "src/components/Admin/Products/ProductIndex.vue";
 import BrandIndex from "src/components/Admin/Products/BrandIndex.vue";
 import CategoryIndex from "src/components/Admin/Products/CategoryIndex.vue";
+import FeatureIndex from "src/components/Admin/Products/FeatureIndex.vue";
 
 const tab = ref("productos");
 </script>

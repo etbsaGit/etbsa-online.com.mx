@@ -1,8 +1,8 @@
 <template>
   <q-form ref="myForm" greedy>
-    <q-item v-if="formBrand.logo || base64">
+    <q-item v-if="formBrand.base64 || path">
       <q-item-section>
-        <q-img :src="base64 ? base64 : formBrand.logo" />
+        <q-img :src="formBrand.base64 ? formBrand.base64 : path" />
       </q-item-section>
     </q-item>
     <q-item>
@@ -23,10 +23,10 @@
           clearable
           dense
           outlined
-          v-model="formBrand.logo"
+          v-model="formBrand.file"
           label="imagen de la marca"
           lazy-rules
-          @clear="base64 = null"
+          @clear="formBrand.base64 = null"
           @input="convertirFile($event)"
         />
       </q-item-section>
@@ -37,14 +37,16 @@
 <script setup>
 import { ref } from "vue";
 
-const myForm = ref(null);
-const base64 = ref(null);
-
 const { brand } = defineProps(["brand"]);
+
+const myForm = ref(null);
+
+const path = brand ? brand.logopath : null;
 
 const formBrand = ref({
   id: brand ? brand.id : null,
-  logo: brand ? brand.logo : null,
+  base64: null,
+  file: [],
   name: brand ? brand.name : null,
 });
 
@@ -53,11 +55,12 @@ const convertirFile = (event) => {
   if (archivo) {
     const reader = new FileReader();
     reader.onload = (e) => {
-      base64.value = e.target.result;
+      const base64Data = e.target.result;
+      formBrand.value.base64 = base64Data;
     };
     reader.readAsDataURL(archivo);
   } else {
-    base64.value = null; // Limpiar base64 cuando no hay archivo seleccionado
+    formBrand.value.base64.value = null; // Limpiar base64 cuando no hay archivo seleccionado
   }
 };
 

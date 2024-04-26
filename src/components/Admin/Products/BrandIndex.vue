@@ -55,6 +55,28 @@
             </q-btn-dropdown>
           </q-td>
         </template>
+        <template v-slot:body-cell-name="props">
+          <q-td>
+            <q-item class="q-my-none" dense>
+              <q-item-section avatar>
+                <q-avatar
+                  color="primary"
+                  text-color="white"
+                  v-if="props.row.logo && props.row.logopath"
+                >
+                  <img :src="props.row.logopath" alt="Foto de la marca" />
+                </q-avatar>
+                <q-avatar v-else color="primary" text-color="white">
+                  {{ props.row.name.charAt(0).toUpperCase()
+                  }}{{ props.row.name.charAt(1).toUpperCase() }}
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>{{ props.row.name }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-td>
+        </template>
       </q-table>
     </q-item-section>
   </q-item>
@@ -167,7 +189,7 @@ const onRowDelete = (row) => {
 
 const getBrands = async () => {
   let res = await sendRequest("GET", null, "/api/brands", "");
-  brands.value = res.data.data;
+  brands.value = res;
 };
 
 const storeBrand = async () => {
@@ -184,13 +206,7 @@ const storeBrand = async () => {
   const data = {
     ...add.value.formBrand,
   };
-  let res = await sendRequest(
-    "POST",
-    add.value.formBrand,
-    "/api/brands",
-    "",
-    true
-  );
+  let res = await sendRequest("POST", data, "/api/brands", "");
   addBrand.value = false;
   getBrands();
 };
@@ -208,10 +224,9 @@ const updateBrand = async () => {
   }
   const data = {
     ...edit.value.formBrand,
-    _method: "PUT",
   };
   let res = await sendRequest(
-    "POST",
+    "PUT",
     data,
     "/api/brands/" + selectedBrand.value.id,
     ""

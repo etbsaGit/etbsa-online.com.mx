@@ -17,33 +17,17 @@ const sleep = (miliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, miliseconds));
 };
 
-export async function sendRequest(
-  method,
-  params,
-  url,
-  redirect = "",
-  forceFormData = false
-) {
+export async function sendRequest(method, params, url, redirect = "") {
   const authStore = useAuthStore();
   axios.defaults.headers.common[
     "Authorization"
   ] = `Bearer ${authStore.authToken}`;
+  //axios.defaults.headers.common["Content-Type"] = "multipart/form-data"
   try {
     Loading.show({
       spinner: QSpinnerGears,
     });
-
-    const formData = new FormData();
-    if (forceFormData) {
-      axios.defaults.headers.common["Content-Type"] = "multipart/form-data";
-      Object.entries(params).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-    }
-
-    let payload = forceFormData ? formData : params;
-
-    const response = await axios({ method: method, url: url, data: payload });
+    const response = await axios({ method: method, url: url, data: params });
     const data = response.data;
     if (method == "POST" || method == "PUT") {
       show_notify("Registro cargado", "publish", "blue", "");

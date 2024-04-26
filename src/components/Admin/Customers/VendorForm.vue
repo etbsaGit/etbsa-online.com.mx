@@ -1,5 +1,10 @@
 <template>
   <q-form ref="myForm" greedy>
+    <q-item v-if="formVendor.base64 || path">
+      <q-item-section>
+        <q-img :src="formVendor.base64 ? formVendor.base64 : path" />
+      </q-item-section>
+    </q-item>
     <q-item>
       <q-item-section>
         <q-input
@@ -12,20 +17,51 @@
         />
       </q-item-section>
     </q-item>
+    <q-item>
+      <q-item-section>
+        <q-file
+          clearable
+          dense
+          outlined
+          v-model="formVendor.file"
+          label="imagen de la proveedor"
+          lazy-rules
+          @clear="formVendor.base64 = null"
+          @input="convertirFile($event)"
+        />
+      </q-item-section>
+    </q-item>
   </q-form>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
-const myForm = ref(null);
-
 const { vendor } = defineProps(["vendor"]);
+
+const myForm = ref(null);
+const path = vendor ? vendor.logopath : null;
 
 const formVendor = ref({
   id: vendor ? vendor.id : null,
+  base64: null,
+  file: [],
   name: vendor ? vendor.name : null,
 });
+
+const convertirFile = (event) => {
+  const archivo = event.target.files[0];
+  if (archivo) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const base64Data = e.target.result;
+      formVendor.value.base64 = base64Data;
+    };
+    reader.readAsDataURL(archivo);
+  } else {
+    formVendor.value.base64.value = null; // Limpiar base64 cuando no hay archivo seleccionado
+  }
+};
 
 const validate = async () => {
   return await myForm.value.validate();
