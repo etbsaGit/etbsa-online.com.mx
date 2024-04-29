@@ -5,7 +5,7 @@
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
-          <q-img src="src\assets\logo.png" style="max-width: 20%" />
+          <q-img src="..\assets\logo.png" style="max-width: 20%" />
           Administracion ETBSA
         </q-toolbar-title>
         <q-space />

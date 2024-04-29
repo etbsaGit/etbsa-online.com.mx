@@ -2,7 +2,7 @@
   <q-page class="flex flex-center bg-grey-2">
     <q-card class="q-pa-md shadow-2 my_card" bordered>
       <q-card-section class="text-center">
-        <q-img src="src\assets\etbsa_logo_agricola.webp" alt="Logo" />
+        <q-img src="..\..\assets\etbsa_logo_agricola.webp" alt="Logo" />
         <div class="text-grey-9 text-h5 text-weight-bold">
           Equipos y tractores del bajio
         </div>

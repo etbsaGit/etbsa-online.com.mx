@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title>
           <q-img
-            src="src\assets\etbsa_logo_agricola.webp"
+            src="..\assets\etbsa_logo_agricola.webp"
             style="max-width: 10%"
           />
         </q-toolbar-title>

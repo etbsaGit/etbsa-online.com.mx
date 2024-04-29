@@ -2,7 +2,7 @@
   <q-page class="q-pa-md">
     <div class="q-gutter-md text-center">
       <img
-        src="src\assets\etbsa_logo_agricola.webp"
+        src="..\assets\etbsa_logo_agricola.webp"
         alt="App Logo"
         class="logo"
       />

@@ -49,7 +49,7 @@ const tab = ref("pedidos");
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md text-center">
-      <img src="src\assets\logo.png" alt="App Logo" class="logo" />
+      <img src="..\..\assets\logo.png" alt="App Logo" class="logo" />
       <div class="text-h3 mt-6">Nuevo módulo en proceso</div>
       <div class="text-subtitle1 mt-4">
         Estamos trabajando en el nuevo módulo pedidos para mejorar tu
