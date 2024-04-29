@@ -221,7 +221,7 @@
       </q-card-section>
       <q-card-actions align="right">
         <q-btn label="Cerrar" color="red" v-close-popup />
-        <q-btn label="Borrar categoria" color="blue" @click="delProduct()" />
+        <q-btn label="Borrar producto" color="blue" @click="delProduct()" />
       </q-card-actions>
     </q-card>
   </q-dialog>

@@ -143,15 +143,52 @@
       </q-tab-panel>
 
       <q-tab-panel name="Caracteristicas">
-        <div class="row items-start">
-          <q-item v-for="feature in features" :key="feature.id" class="col-6">
+        <div>
+          <q-item v-for="(feature, index) in formProduct.features" :key="index">
             <q-item-section>
-              <q-toggle
-                v-model="formProduct.features"
-                :label="feature.name"
-                color="purple"
+              <q-select
+                v-model="feature.feature_id"
+                :options="features"
+                label="Caracteristica"
+                option-value="id"
+                option-label="name"
+                option-disable="inactive"
+                emit-value
+                map-options
+                transition-show="jump-up"
+                transition-hide="jump-up"
+                clearable
+                outlined
                 dense
-                :val="feature.id"
+                :rules="[(val) => val || 'Obligatorio']"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-input
+                v-model="feature.value"
+                label="Value"
+                clearable
+                outlined
+                dense
+                :rules="[(val) => (val && val.length > 0) || 'Obligatorio']"
+              />
+            </q-item-section>
+            <q-item-section avatar>
+              <q-btn
+                icon="delete"
+                color="red"
+                outlined
+                @click="delFeature(index)"
+              />
+            </q-item-section>
+          </q-item>
+          <q-item>
+            <q-item-section>
+              <q-btn
+                color="primary"
+                icon="add"
+                label="Agregar caracteristica"
+                @click="addFeature"
               />
             </q-item-section>
           </q-item>
@@ -257,6 +294,17 @@ const formProduct = ref({
   file: [],
 });
 
+const addFeature = () => {
+  formProduct.value.features.push({
+    feature_id: null,
+    value: null,
+  });
+};
+
+const delFeature = (index) => {
+  formProduct.value.features.splice(index, 1);
+};
+
 const getFormProduct = async () => {
   let res = await sendRequest("GET", null, "/api/formProduct", "");
   categories.value = res.categories;
@@ -268,7 +316,10 @@ const getFormProduct = async () => {
 const checkFeatures = () => {
   if (product) {
     for (const feature of product.features) {
-      formProduct.value.features.push(feature.id);
+      formProduct.value.features.push({
+        feature_id: feature.pivot.feature_id,
+        value: feature.pivot.value,
+      });
     }
   }
 };

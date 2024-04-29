@@ -32,7 +32,7 @@ import { ref } from "vue";
 import CustomerIndex from "src/components/Admin/Customers/CustomerIndex.vue";
 import VendorIndex from "src/components/Admin/Customers/VendorIndex.vue";
 
-const tab = ref("clientes");
+const tab = ref("proveedores");
 </script>
 
 <style>

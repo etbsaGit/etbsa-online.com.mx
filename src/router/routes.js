@@ -21,10 +21,10 @@ const routes = [
     },
     children: [
       { path: "login", component: () => import("pages/Auth/AuthLogin.vue") },
-      {
-        path: "register",
-        component: () => import("pages/Auth/AuthRegister.vue"),
-      },
+      // {
+      //   path: "register",
+      //   component: () => import("pages/Auth/AuthRegister.vue"),
+      // },
     ],
   },
   {

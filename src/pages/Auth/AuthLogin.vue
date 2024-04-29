@@ -32,14 +32,14 @@
           />
         </q-card-section>
       </q-form>
-      <q-card-section class="text-center q-pt-none">
+      <!-- <q-card-section class="text-center q-pt-none">
         <div class="text-grey-8">
           Don't have an account yet?
           <q-btn color="secondary" to="/auth/register" class="text-dark">
             Create account
           </q-btn>
         </div>
-      </q-card-section>
+      </q-card-section> -->
     </q-card>
   </q-page>
 </template>

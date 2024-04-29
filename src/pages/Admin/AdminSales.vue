@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <q-card>
     <q-tabs
       v-model="tab"
@@ -45,4 +45,28 @@ const tab = ref("pedidos");
 .q-tab-panel {
   padding: 0 !important;
 }
+</style> -->
+<template>
+  <q-page class="q-pa-md">
+    <div class="q-gutter-md text-center">
+      <img src="src\assets\logo.png" alt="App Logo" class="logo" />
+      <div class="text-h3 mt-6">Nuevo módulo en proceso</div>
+      <div class="text-subtitle1 mt-4">
+        Estamos trabajando en el nuevo módulo pedidos para mejorar tu
+        experiencia.
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script setup>
+import { ref } from "vue";
+</script>
+
+<style scoped>
+.logo {
+  max-width: 150px;
+  margin: 0 auto;
+}
 </style>
+

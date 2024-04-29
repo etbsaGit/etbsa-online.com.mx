@@ -1,11 +1,14 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md text-center">
-      <img src="src\assets\logo.png" alt="App Logo" class="logo" />
-      <div class="text-h3 mt-6">Nuevo módulo en proceso</div>
+      <img
+        src="src\assets\etbsa_logo_agricola.webp"
+        alt="App Logo"
+        class="logo"
+      />
+      <div class="text-h3 mt-6">¡Proximamente!</div>
       <div class="text-subtitle1 mt-4">
-        Estamos trabajando en el nuevo módulo clientes para mejorar tu
-        experiencia.
+        Estamos trabajando duro para ofrecerte la mejor experiencia de compra.
       </div>
     </div>
   </q-page>
