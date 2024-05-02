@@ -228,6 +228,7 @@
               @clear="formProduct.images = []"
               multiple
               max-files="3"
+              accept=".jpg, .jpeg, .png"
               @rejected="onRejected"
               hint="Solo hasta 3 imagenes"
             />
