@@ -26,7 +26,14 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table bordered flat :rows="brands" :columns="columns" row-key="name">
+      <q-table
+        bordered
+        flat
+        :rows="filteredBrands"
+        :columns="columns"
+        row-key="name"
+        :rows-per-page-options="[0]"
+      >
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown flat color="grey" icon="menu" dense>
@@ -55,7 +62,7 @@
             </q-btn-dropdown>
           </q-td>
         </template>
-        <template v-slot:body-cell-name="props">
+        <template v-slot:body-cell-id="props">
           <q-td>
             <q-item class="q-my-none" dense>
               <q-item-section avatar>
@@ -70,9 +77,6 @@
                   {{ props.row.name.charAt(0).toUpperCase()
                   }}{{ props.row.name.charAt(1).toUpperCase() }}
                 </q-avatar>
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>{{ props.row.name }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-td>
@@ -144,7 +148,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useQuasar } from "quasar";
 import { sendRequest } from "src/boot/functions";
 import BrandForm from "src/components/Admin/Products/BrandForm.vue";
@@ -160,8 +164,14 @@ const selectedBrand = ref(null);
 const add = ref(null);
 const edit = ref(null);
 
+const filteredBrands = computed(() => {
+  return brands.value.filter((brand) => {
+    return brand.name.toLowerCase().includes(searchTerm.value.toLowerCase());
+  });
+});
+
 const columns = [
-  { name: "id", label: "ID", align: "left", field: "id", sortable: true },
+  { name: "id", label: "Foto", align: "left", field: "id", sortable: true },
   {
     name: "name",
     label: "Nombre",

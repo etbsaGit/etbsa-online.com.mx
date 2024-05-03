@@ -29,9 +29,10 @@
       <q-table
         bordered
         flat
-        :rows="categories"
+        :rows="filteredCategories"
         :columns="columns"
         row-key="name"
+        :rows-per-page-options="[0]"
       >
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
@@ -136,7 +137,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useQuasar } from "quasar";
 import { sendRequest } from "src/boot/functions";
 import CategoryForm from "src/components/Admin/Products/CategoryForm.vue";
@@ -152,8 +153,14 @@ const selectedCategory = ref(null);
 const add = ref(null);
 const edit = ref(null);
 
+const filteredCategories = computed(() => {
+  return categories.value.filter((category) => {
+    return category.name.toLowerCase().includes(searchTerm.value.toLowerCase());
+  });
+});
+
 const columns = [
-  { name: "id", label: "ID", align: "left", field: "id", sortable: true },
+  // { name: "id", label: "ID", align: "left", field: "id", sortable: true },
   {
     name: "name",
     label: "Nombre",

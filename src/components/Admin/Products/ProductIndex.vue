@@ -26,7 +26,14 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table bordered flat :rows="products" :columns="columns" row-key="name">
+      <q-table
+        bordered
+        flat
+        :rows="filteredProducts"
+        :columns="columns"
+        row-key="name"
+        :rows-per-page-options="[0]"
+      >
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown flat color="grey" icon="menu" dense>
@@ -161,7 +168,7 @@
   >
     <q-card>
       <q-card-section class="d-flex q-pa-sm">
-        <div class="text-h6">Nueva producto</div>
+        <div class="text-h6">Nuevo producto</div>
         <q-card-actions align="right">
           <q-btn label="Cerrar" color="red" v-close-popup />
           <q-btn
@@ -228,7 +235,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useQuasar } from "quasar";
 import { sendRequest } from "src/boot/functions";
 import ProductForm from "src/components/Admin/Products/ProductForm.vue";
@@ -243,6 +250,15 @@ const products = ref([]);
 const selectedProduct = ref(null);
 const add = ref(null);
 const edit = ref(null);
+
+const filteredProducts = computed(() => {
+  return products.value.filter((product) => {
+    return (
+      product.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+      product.sku.toLowerCase().includes(searchTerm.value.toLowerCase())
+    );
+  });
+});
 
 const columns = [
   // { name: "id", label: "ID", align: "left", field: "id", sortable: true },

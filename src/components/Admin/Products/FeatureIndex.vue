@@ -26,7 +26,14 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table bordered flat :rows="features" :columns="columns" row-key="name">
+      <q-table
+        bordered
+        flat
+        :rows="filteredFeatures"
+        :columns="columns"
+        row-key="name"
+        :rows-per-page-options="[0]"
+      >
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn-dropdown flat color="grey" icon="menu" dense>
@@ -132,7 +139,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useQuasar } from "quasar";
 import { sendRequest } from "src/boot/functions";
 import FeatureForm from "src/components/Admin/Products/FeatureForm.vue";
@@ -148,8 +155,14 @@ const selectedFeature = ref(null);
 const add = ref(null);
 const edit = ref(null);
 
+const filteredFeatures = computed(() => {
+  return features.value.filter((feature) => {
+    return feature.name.toLowerCase().includes(searchTerm.value.toLowerCase());
+  });
+});
+
 const columns = [
-  { name: "id", label: "ID", align: "left", field: "id", sortable: true },
+  // { name: "id", label: "ID", align: "left", field: "id", sortable: true },
   {
     name: "name",
     label: "Nombre",
