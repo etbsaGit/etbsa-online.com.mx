@@ -26,6 +26,7 @@
           v-model="formBrand.file"
           label="imagen de la marca"
           lazy-rules
+          accept=".jpg, .jpeg, .png, .jfif"
           @clear="formBrand.base64 = null"
           @input="convertirFile($event)"
         />

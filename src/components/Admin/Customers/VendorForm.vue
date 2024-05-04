@@ -27,6 +27,7 @@
           label="imagen de la proveedor"
           lazy-rules
           @clear="formVendor.base64 = null"
+          accept=".jpg, .jpeg, .png, .jfif"
           @input="convertirFile($event)"
         />
       </q-item-section>
