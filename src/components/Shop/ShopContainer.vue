@@ -1,355 +1,388 @@
 <template>
-  <div class="row">
-    <div class="col-3 q-pa-md">
-      <q-list bordered separator>
-        <q-item>
-          <q-item-section>
-            <q-item-label class="text-h6 font-bold"> Filters </q-item-label>
-          </q-item-section>
-        </q-item>
+  <div class="row bg-primary">
+    <div class="col-3 q-pa-sm">
+      <q-list dense bordered separator style="border-radius: 10px">
+        <q-form ref="myForm" greedy>
+          <q-item>
+            <q-item-section>
+              <q-item-label class="text-h6 font-bold"> Filtros </q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <q-btn
+                dense
+                color="warning"
+                label="Sin filtros"
+                @click="resetFilter"
+              />
+            </q-item-section>
+            <q-item-section>
+              <q-btn
+                dense
+                color="info"
+                icon="search"
+                label="Buscar"
+                @click="filterProducts"
+              />
+            </q-item-section>
+          </q-item>
 
-        <q-item>
-          <q-item-section>
-            <q-expansion-item expand-separator label="Clothing">
-              <q-card>
-                <q-card-section>
-                  <q-list>
-                    <q-item clickable v-ripple>
-                      <q-item-section>Single line item</q-item-section>
-                    </q-item>
+          <q-separator></q-separator>
 
-                    <q-item clickable v-ripple>
-                      <q-item-section>
-                        <q-item-label>Item with caption</q-item-label>
-                      </q-item-section>
-                    </q-item>
+          <q-item>
+            <q-item-section>
+              <q-item-label class="font-bold"> Categorias </q-item-label>
+            </q-item-section>
+          </q-item>
 
-                    <q-item clickable v-ripple>
-                      <q-item-section>
-                        <q-item-label>Item with caption</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-card-section>
-              </q-card>
-            </q-expansion-item>
-            <q-expansion-item expand-separator label="Shoes">
-              <q-card>
-                <q-card-section>
-                  <q-list>
-                    <q-item clickable v-ripple>
-                      <q-item-section>Single line item</q-item-section>
-                    </q-item>
+          <q-item>
+            <q-item-section>
+              <q-expansion-item
+                dense
+                v-for="(category, index) in categories"
+                :key="index"
+                :label="category.name"
+                :content-inset-level="1"
+              >
+                <template v-slot:header>
+                  <q-item-section>
+                    <q-item-label>
+                      <q-toggle
+                        color="info"
+                        :label="category.name"
+                        v-model="filterForm.categories"
+                        :val="category.id"
+                      />
+                    </q-item-label>
+                  </q-item-section>
+                </template>
 
-                    <q-item clickable v-ripple>
-                      <q-item-section>
-                        <q-item-label>Item with caption</q-item-label>
-                      </q-item-section>
-                    </q-item>
+                <q-item>
+                  <q-item-section>
+                    <q-toggle
+                      v-for="(category1, index) in category.children_recursive"
+                      :key="index"
+                      color="info"
+                      :label="category1.name"
+                      v-model="filterForm.categories"
+                      :val="category1.id"
+                    />
+                  </q-item-section>
+                </q-item>
 
-                    <q-item clickable v-ripple>
-                      <q-item-section>
-                        <q-item-label>Item with caption</q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-card-section>
-              </q-card>
-            </q-expansion-item>
-          </q-item-section>
-        </q-item>
-
-        <q-item>
-          <q-item-section>
-            <q-item-label class="text-h6 font-bold q-pa-md">Price</q-item-label>
-
-            <q-range
-              class="q-pa-md"
-              v-model="standard"
-              :min="0"
-              :max="5000"
-              label-always
-            />
-            <q-item>
-              <q-item-section>
-                <q-input
-                  type="number"
-                  outlined
-                  dense
-                  v-model="standard.min"
-                  label="minimo"
+                <!-- <q-expansion-item
+                  v-for="(category1, index) in category.children_recursive"
+                  :key="index"
+                  :header-inset-level="1"
+                  :label="category1.name"
                 >
-                  <template v-slot:prepend>
-                    <q-icon name="attach_money" />
+                  <template v-slot:header>
+                    <q-item-section>
+                      <q-item-label>
+                        <q-toggle
+                          color="blue"
+                          :label="category1.name"
+                          v-model="filterForm.categories"
+                          :val="category1.id"
+                      /></q-item-label>
+                    </q-item-section>
                   </template>
-                </q-input>
-              </q-item-section>
-              <q-item-section>
-                <q-input
-                  type="number"
-                  outlined
-                  dense
-                  v-model="standard.max"
-                  label="maximo"
-                >
-                  <template v-slot:prepend>
-                    <q-icon name="attach_money" />
-                  </template>
-                </q-input>
-              </q-item-section>
-            </q-item>
-          </q-item-section>
-        </q-item>
 
-        <q-item>
-          <q-item-section>
-            <q-item-label class="text-h6 font-bold">
-              Customer Rating
-            </q-item-label>
-            <q-item dense>
-              <q-item-section>
-                <q-checkbox v-model="Five" label="5" />
-              </q-item-section>
-              <q-item-section>
-                <div style="display: flex; justify-content: flex-end">
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
+                  <q-expansion-item
+                    v-for="(category2, index) in category1.children_recursive"
+                    :key="index"
+                    :header-inset-level="2"
+                    :label="category2.name"
+                  >
+                    <template v-slot:header>
+                      <q-item-section>
+                        <q-item-label>
+                          <q-toggle
+                            color="blue"
+                            :label="category2.name"
+                            v-model="filterForm.categories"
+                            :val="category2.id"
+                        /></q-item-label>
+                      </q-item-section>
+                    </template>
+                  </q-expansion-item>
+                </q-expansion-item> -->
+              </q-expansion-item>
+            </q-item-section>
+          </q-item>
+
+          <q-separator />
+
+          <q-item>
+            <q-item-section>
+              <q-expansion-item label="Caracteristicas">
+                <q-item
+                  class="row"
+                  v-for="(feature, index) in filterForm.features"
+                  :key="index"
+                >
+                  <q-item-section class="col-8">
+                    <q-select
+                      v-model="feature.feature_id"
+                      :options="features"
+                      option-label="name"
+                      option-value="id"
+                      label="Tipo de caracteristica"
+                      transition-show="jump-up"
+                      transition-hide="jump-up"
+                      filled
+                      dense
+                      emit-value
+                      map-options
+                      :rules="[(val) => val !== null || 'Obligatorio']"
+                    >
+                      <template v-slot:before>
+                        <q-avatar>
+                          <q-btn
+                            icon="delete"
+                            color="negative"
+                            filled
+                            dense
+                            @click="deleteFeature(index)"
+                          />
+                        </q-avatar> </template
+                    ></q-select>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-input
+                      filled
+                      dense
+                      v-model="feature.value"
+                      :rules="[(val) => val !== null || 'Obligatorio']"
+                    />
+                  </q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section>
+                    <q-btn
+                      outline
+                      size="sm"
+                      color="secondary"
+                      icon="add"
+                      label="Agregar filtro"
+                      @click="addfeature"
+                    />
+                  </q-item-section>
+                </q-item>
+              </q-expansion-item>
+            </q-item-section>
+          </q-item>
+          <q-separator />
+          <q-item>
+            <q-item-section>
+              <q-expansion-item dense label="Marcas">
+                <div class="row items-start">
+                  <q-toggle
+                    class="col-6"
+                    v-for="(brand, index) in brands"
+                    :key="index"
+                    color="info"
+                    :label="brand.name"
+                    v-model="filterForm.brands"
+                    :val="brand.id"
+                  />
                 </div>
-              </q-item-section>
-            </q-item>
-            <q-item dense>
-              <q-item-section>
-                <q-checkbox v-model="Four" label="4" />
-              </q-item-section>
-              <q-item-section>
-                <div style="display: flex; justify-content: flex-end">
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                </div>
-              </q-item-section>
-            </q-item>
-            <q-item dense>
-              <q-item-section>
-                <q-checkbox v-model="Three" label="3" />
-              </q-item-section>
-              <q-item-section>
-                <div style="display: flex; justify-content: flex-end">
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                </div>
-              </q-item-section>
-            </q-item>
-            <q-item dense>
-              <q-item-section>
-                <q-checkbox v-model="Two" label="2" />
-              </q-item-section>
-              <q-item-section>
-                <div style="display: flex; justify-content: flex-end">
-                  <q-icon name="star" color="orange" size="24px" />
-                  <q-icon name="star" color="orange" size="24px" />
-                </div>
-              </q-item-section>
-            </q-item>
-            <q-item dense>
-              <q-item-section>
-                <q-checkbox v-model="One" label="1" />
-              </q-item-section>
-              <q-item-section>
-                <div style="display: flex; justify-content: flex-end">
-                  <q-icon name="star" color="orange" size="24px" />
-                </div>
-              </q-item-section>
-            </q-item>
-            <q-item dense>
-              <q-item-section>
-                <q-checkbox v-model="Zero" label="0" />
-              </q-item-section>
-              <q-item-section>
-                <div style="display: flex; justify-content: flex-end">
-                  <q-icon name="thumb_down" color="red" size="24px" />
-                </div>
-              </q-item-section>
-            </q-item>
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>
-            <q-item-label class="text-h6 font-bold"> Size </q-item-label>
-            <q-option-group
-              v-model="group"
-              :options="options"
-              color="primary"
-              type="checkbox"
-            />
-          </q-item-section>
-        </q-item>
+              </q-expansion-item>
+            </q-item-section>
+          </q-item>
+        </q-form>
       </q-list>
     </div>
     <div class="col-9 q-pa-md">
-      <q-breadcrumbs>
-        <q-breadcrumbs-el label="Home" />
-        <q-breadcrumbs-el label="Components" />
-        <q-breadcrumbs-el label="Breadcrumbs" />
-      </q-breadcrumbs>
-      <q-item style="display: flex; justify-content: flex-end">
-        <q-item-section class="col-3">
-          <q-select outlined dense v-model="select" :options="optionSelect" />
-        </q-item-section>
-      </q-item>
       <q-separator spaced />
       <div class="row">
         <q-card
-          class="col-2"
+          class="col-2 my-card"
           v-for="(product, index) in products"
           :key="index"
-          style="margin: 10px"
+          style="
+            margin: 10px;
+            height: 300px;
+            max-width: 100%;
+            border-radius: 10px;
+            position: relative;
+          "
         >
-          <img :src="product.src" />
-          <q-card-section>
-            <div class="text-subtitle2">
-              <strong>{{ product.name }}</strong>
-            </div>
-            <div class="text-subtitle2">{{ product.type }}</div>
-            <div class="text-subtitle2">${{ product.price }}</div>
-          </q-card-section>
-
-          <q-separator dark />
-
-          <q-card-actions vertical>
-            <router-link to="/product" class="q-btn"> View </router-link>
-          </q-card-actions>
+          <div style="height: 100%">
+            <q-img
+              v-if="product.images[0]"
+              :src="product.images[0].realpath"
+              style="
+                width: 100%;
+                height: 40%;
+                object-fit: cover;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+              "
+            />
+            <q-img
+              v-else
+              src="../../assets/nonimage.png"
+              style="
+                width: 100%;
+                height: 40%;
+                object-fit: cover;
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+              "
+            />
+            <q-card-section
+              class="q-pa-xs"
+              style="
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+              "
+            >
+              <q-item-label class="text-center text-weight-bold">
+                {{ product.name }}
+              </q-item-label>
+              <q-item-label>
+                <q-chip>
+                  <q-avatar>
+                    <img :src="product.vendor.logopath" />
+                  </q-avatar>
+                  <q-item-label>
+                    {{ product.vendor.name }}
+                  </q-item-label>
+                </q-chip>
+              </q-item-label>
+              <q-item-label>
+                <div class="text-subtitle2">${{ product.sale_price }}</div>
+              </q-item-label>
+              <q-card-actions vertical>
+                <q-btn
+                  outline
+                  label="View"
+                  color="secondary"
+                  size="xs"
+                  @click="reloadComponent(product.id)"
+                />
+              </q-card-actions>
+            </q-card-section>
+          </div>
         </q-card>
       </div>
       <div class="q-pa-lg flex flex-center">
-        <q-pagination v-model="current" :max="5" direction-links />
+        <q-pagination
+          color="secondary"
+          v-model="current_page"
+          :max="last_page"
+          :max-pages="6"
+          direction-links
+          boundary-links
+          icon-first="skip_previous"
+          icon-last="skip_next"
+          icon-prev="fast_rewind"
+          icon-next="fast_forward"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-const Five = ref(false);
-const Four = ref(false);
-const Three = ref(false);
-const Two = ref(false);
-const One = ref(false);
-const Zero = ref(false);
-const current = ref(3);
-const standard = ref({
-  min: 0,
-  max: 0,
+import { ref, onMounted, watch, onBeforeMount } from "vue";
+import { sendRequest } from "src/boot/functions";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+const products = ref(null);
+const current_page = ref(1);
+const next_page_url = ref("");
+const prev_page_url = ref("");
+const last_page = ref(0);
+
+const categories = ref(null);
+const features = ref(null);
+const brands = ref(null);
+const myForm = ref(null);
+
+const filterForm = ref({
+  categories: [],
+  features: [],
+  brands: [],
 });
-const group = ref([]);
-const options = ref([
-  { label: "XS", value: "XS" },
-  { label: "S", value: "S" },
-  { label: "M", value: "M" },
-  { label: "L", value: "L" },
-  { label: "XL", value: "XL" },
-  { label: "XXL", value: "XXL" },
-  { label: "XXXL", value: "XXXL" },
-]);
 
-const select = ref("Popularity");
-const optionSelect = ref([
-  "Default",
-  "Popularity",
-  "Relevance",
-  "Price: Low to High",
-  "Price: High to Low",
-]);
+const addfeature = () => {
+  filterForm.value.features.push({
+    feature_id: null,
+    value: null,
+  });
+};
 
-const products = ref([
-  {
-    id: 1,
-    name: "BLACK TEE",
-    type: "Jackets",
-    price: "18.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 2,
-    name: "WHITE TEE",
-    type: "Polo",
-    price: "40.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 3,
-    name: "Zara limited...",
-    type: "Denim",
-    price: "25.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 4,
-    name: "SKULL TEE",
-    type: "Jackets",
-    price: "30.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 5,
-    name: "MANGO WINTER",
-    type: "Sweaters",
-    price: "50.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 6,
-    name: "SHIRT",
-    type: "Denim",
-    price: "34.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 7,
-    name: "TRUCKER JACKET",
-    type: "Jackets",
-    price: "38.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 8,
-    name: "COATS",
-    type: "Jackets",
-    price: "25.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 9,
-    name: "MANGO WINTER",
-    type: "Sweaters",
-    price: "50.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 10,
-    name: "SHIRT",
-    type: "Denim",
-    price: "34.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 11,
-    name: "TRUCKER JACKET",
-    type: "Jackets",
-    price: "38.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-  {
-    id: 12,
-    name: "COATS",
-    type: "Jackets",
-    price: "25.00",
-    src: "https://cdn.vuetifyjs.com/images/parallax/material.jpg",
-  },
-]);
+const deleteFeature = (index) => {
+  filterForm.value.features.splice(index, 1);
+};
+
+const resetFilter = () => {
+  (filterForm.value.categories = []), (filterForm.value.features = []);
+};
+
+const reloadComponent = async (id) => {
+  router.push("/product/" + id);
+};
+
+watch(current_page, (newPage) => {
+  filterProducts(newPage);
+});
+
+const getAll = async () => {
+  let res = await sendRequest("GET", null, "/api/page/product/all", "");
+  categories.value = res.categories;
+  features.value = res.features;
+  brands.value = res.brands;
+};
+
+const filterProducts = async (page = 1) => {
+  const isValid = await validate();
+  if (!isValid) {
+    return;
+  }
+  let res = await sendRequest(
+    "POST",
+    filterForm.value,
+    "/api/page/product/filter?page=" + page,
+    ""
+  );
+  products.value = res.data;
+  current_page.value = res.current_page;
+  next_page_url.value = res.next_page_url;
+  prev_page_url.value = res.prev_page_url;
+  last_page.value = res.last_page;
+};
+
+const validate = async () => {
+  return await myForm.value.validate();
+};
+
+onMounted(() => {
+  const query = router.currentRoute.value.query;
+  if (query.categories) {
+    filterForm.value.categories.push(parseInt(query.categories));
+  }
+  getAll();
+  filterProducts();
+  router.push({ path: router.currentRoute.value.path, replace: true });
+});
 </script>
+
+<style>
+.my-card {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.my-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+</style>

@@ -3,7 +3,7 @@
     <q-btn
       label="Registrar caracteristica"
       dense
-      color="primary"
+      color="secondary"
       icon="add"
       @click="addFeature = true"
     />

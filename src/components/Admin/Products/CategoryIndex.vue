@@ -3,7 +3,7 @@
     <q-btn
       label="Registrar Categoria"
       dense
-      color="primary"
+      color="secondary"
       icon="add"
       @click="addCategory = true"
     />
@@ -26,7 +26,91 @@
   </q-item>
   <q-item>
     <q-item-section>
-      <q-table
+      <q-list dense bordered separator class="rounded-borders">
+        <q-expansion-item
+          dense
+          switch-toggle-side
+          v-for="(category, index) in filteredCategories"
+          :key="index"
+          :label="category.name"
+          :content-inset-level="1"
+        >
+          <template v-slot:header>
+            <q-item-section>{{ category.name }}</q-item-section>
+
+            <q-item-section side>
+              <div class="row items-center">
+                <q-btn-dropdown flat color="grey" icon="menu" dense>
+                  <q-list v-close-popup>
+                    <q-item>
+                      <q-btn
+                        flat
+                        size="sm"
+                        label="Editar"
+                        color="blue"
+                        icon="edit"
+                        @click="onRowEdit(category)"
+                      />
+                    </q-item>
+                    <q-item>
+                      <q-btn
+                        flat
+                        size="sm"
+                        label="Borrar"
+                        color="red"
+                        icon="delete"
+                        @click="onRowDelete(category)"
+                      />
+                    </q-item>
+                  </q-list>
+                </q-btn-dropdown>
+              </div>
+            </q-item-section>
+          </template>
+          <q-item>
+            <q-item-section>
+              <q-list dense bordered separator class="rounded-borders">
+                <q-item
+                  clickable
+                  v-ripple
+                  v-for="(category1, index) in category.children_recursive"
+                  :key="index"
+                >
+                  <q-item-section>{{ category1.name }}</q-item-section>
+                  <q-item-section side>
+                    <q-btn-dropdown flat color="grey" icon="menu" dense>
+                      <q-list v-close-popup>
+                        <q-item>
+                          <q-btn
+                            flat
+                            size="sm"
+                            label="Editar"
+                            color="blue"
+                            icon="edit"
+                            @click="onRowEdit(category1)"
+                          />
+                        </q-item>
+                        <q-item>
+                          <q-btn
+                            flat
+                            size="sm"
+                            label="Borrar"
+                            color="red"
+                            icon="delete"
+                            @click="onRowDelete(category1)"
+                          />
+                        </q-item>
+                      </q-list>
+                    </q-btn-dropdown>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-item-section>
+          </q-item>
+        </q-expansion-item>
+      </q-list>
+
+      <!-- <q-table
         bordered
         flat
         :rows="filteredCategories"
@@ -62,7 +146,7 @@
             </q-btn-dropdown>
           </q-td>
         </template>
-      </q-table>
+      </q-table> -->
     </q-item-section>
   </q-item>
 
@@ -86,7 +170,7 @@
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <category-form ref="add" />
+        <category-form ref="add" :categories="categories" />
       </div>
     </q-card>
   </q-dialog>
@@ -111,7 +195,11 @@
       </q-card-section>
       <q-separator />
       <div class="q-pa-sm">
-        <category-form ref="edit" :category="selectedCategory" />
+        <category-form
+          ref="edit"
+          :category="selectedCategory"
+          :categories="categories"
+        />
       </div>
     </q-card>
   </q-dialog>

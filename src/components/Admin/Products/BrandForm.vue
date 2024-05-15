@@ -8,6 +8,7 @@
     <q-item>
       <q-item-section>
         <q-input
+          color="secondary"
           dense
           outlined
           v-model="formBrand.name"
@@ -21,6 +22,7 @@
       <q-item-section>
         <q-file
           clearable
+          color="secondary"
           dense
           outlined
           v-model="formBrand.file"

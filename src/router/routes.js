@@ -6,11 +6,14 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", component: () => import("pages/HomePage.vue") },
-      { path: "product", component: () => import("pages/ProductPage.vue") },
+      {
+        path: "/product/:id",
+        component: () => import("pages/ProductPage.vue"),
+      },
       { path: "shop", component: () => import("pages/ShopPage.vue") },
-      { path: "blog", component: () => import("pages/BlogPage.vue") },
-      { path: "post", component: () => import("pages/PostPage.vue") },
-      { path: "cart", component: () => import("pages/CartPage.vue") },
+      // { path: "blog", component: () => import("pages/BlogPage.vue") },
+      // { path: "post", component: () => import("pages/PostPage.vue") },
+      // { path: "cart", component: () => import("pages/CartPage.vue") },
     ],
   },
   {

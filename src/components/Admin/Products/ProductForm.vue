@@ -3,9 +3,9 @@
     <q-tabs
       v-model="tab"
       dense
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
+      class="text-accent"
+      active-color="secondary"
+      indicator-color="secondary"
       align="justify"
       narrow-indicator
     >
@@ -24,6 +24,7 @@
             <q-input
               dense
               outlined
+              color="secondary"
               v-model="formProduct.name"
               label="Nombre del producto"
               lazy-rules
@@ -34,6 +35,7 @@
             <q-input
               dense
               outlined
+              color="secondary"
               v-model="formProduct.sku"
               label="SKU"
               lazy-rules
@@ -46,6 +48,7 @@
             <q-input
               dense
               outlined
+              color="secondary"
               v-model="formProduct.description"
               label="Descripcion del producto"
               lazy-rules
@@ -62,6 +65,7 @@
               prefix="$"
               dense
               outlined
+              color="secondary"
               v-model="formProduct.price"
               label="Precio del producto"
               lazy-rules
@@ -76,6 +80,7 @@
               reverse-fill-mask
               dense
               outlined
+              color="secondary"
               v-model="formProduct.sale_price"
               label="Precio de venta"
               lazy-rules
@@ -87,6 +92,7 @@
               type="number"
               dense
               outlined
+              color="secondary"
               v-model="formProduct.quantity"
               label="Cantidad"
               lazy-rules
@@ -99,6 +105,7 @@
             <q-select
               v-model="formProduct.brand_id"
               :options="brands"
+              color="secondary"
               label="Marca"
               option-value="id"
               option-label="name"
@@ -121,6 +128,7 @@
               option-value="id"
               option-label="name"
               option-disable="inactive"
+              color="secondary"
               emit-value
               map-options
               transition-show="jump-up"
@@ -134,10 +142,20 @@
         </q-item>
         <q-item>
           <q-item-section>
-            <q-toggle dense label="Activo" v-model="formProduct.active" />
+            <q-toggle
+              dense
+              label="Activo"
+              v-model="formProduct.active"
+              color="secondary"
+            />
           </q-item-section>
           <q-item-section>
-            <q-toggle dense label="Featured" v-model="formProduct.featured" />
+            <q-toggle
+              dense
+              label="Featured"
+              v-model="formProduct.featured"
+              color="secondary"
+            />
           </q-item-section>
         </q-item>
       </q-tab-panel>
@@ -160,6 +178,7 @@
                 clearable
                 outlined
                 dense
+                color="secondary"
                 :rules="[(val) => val || 'Obligatorio']"
               />
             </q-item-section>
@@ -170,6 +189,7 @@
                 clearable
                 outlined
                 dense
+                color="secondary"
                 :rules="[(val) => (val && val.length > 0) || 'Obligatorio']"
               />
             </q-item-section>
@@ -185,7 +205,7 @@
           <q-item>
             <q-item-section>
               <q-btn
-                color="primary"
+                color="secondary"
                 icon="add"
                 label="Agregar caracteristica"
                 @click="addFeature"
@@ -196,41 +216,63 @@
       </q-tab-panel>
 
       <q-tab-panel name="Categorias">
-        <div class="row items-start">
-          <q-item
-            v-for="category in categories"
-            :key="category.id"
-            class="col-6"
-          >
-            <q-item-section>
-              <q-toggle
-                v-model="formProduct.category_id"
-                :label="category.name"
-                color="purple"
-                dense
-                :val="category.id"
-              />
-            </q-item-section>
-          </q-item>
-        </div>
+        <q-item>
+          <q-item-section>
+            <q-expansion-item
+              dense
+              v-for="(category, index) in categories"
+              :key="index"
+              :label="category.name"
+              :content-inset-level="1"
+            >
+              <template v-slot:header>
+                <q-item-section>
+                  <q-item-label>
+                    <q-toggle
+                      color="secondary"
+                      :label="category.name"
+                      v-model="formProduct.category_id"
+                      :val="category.id"
+                    />
+                  </q-item-label>
+                </q-item-section>
+              </template>
+
+              <q-item>
+                <q-item-section>
+                  <q-toggle
+                    v-for="(category1, index) in category.children_recursive"
+                    :key="index"
+                    color="secondary"
+                    :label="category1.name"
+                    v-model="formProduct.category_id"
+                    :val="category1.id"
+                  />
+                </q-item-section>
+              </q-item>
+            </q-expansion-item>
+          </q-item-section>
+        </q-item>
       </q-tab-panel>
+
       <q-tab-panel name="Imagenes">
         <q-item>
           <q-item-section>
             <q-file
-              clearable
               dense
+              multiple
               outlined
+              clearable
+              lazy-rules
+              max-files="3"
+              color="secondary"
+              @rejected="onRejected"
               v-model="formProduct.file"
               label="imagen del producto"
-              lazy-rules
+              hint="Solo hasta 3 imagenes"
               @input="convertirFile($event)"
               @clear="formProduct.images = []"
-              multiple
-              max-files="3"
               accept=".jpg, .jpeg, .png, .jfif"
-              @rejected="onRejected"
-              hint="Solo hasta 3 imagenes"
             />
           </q-item-section>
         </q-item>

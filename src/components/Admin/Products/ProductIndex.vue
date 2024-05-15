@@ -3,7 +3,7 @@
     <q-btn
       label="Registrar producto"
       dense
-      color="primary"
+      color="secondary"
       icon="add"
       @click="addProduct = true"
     />

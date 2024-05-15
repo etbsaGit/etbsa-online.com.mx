@@ -3,6 +3,7 @@
     <q-item>
       <q-item-section>
         <q-input
+          color="secondary"
           dense
           outlined
           v-model="formFeature.name"

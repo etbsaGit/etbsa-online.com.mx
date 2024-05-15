@@ -3,10 +3,12 @@
     <q-header reveal elevated>
       <q-toolbar>
         <q-toolbar-title>
-          <q-img
-            src="..\assets\etbsa_logo_agricola.webp"
-            style="max-width: 10%"
-          />
+          <router-link to="/">
+            <q-img
+              src="..\assets\etbsa_logo_agricola.webp"
+              style="max-width: 10%"
+            />
+          </router-link>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -17,7 +19,7 @@
 
     <q-footer reveal elevated class="bg-secondary text-white">
       <q-item class="flex justify-center">
-        <div>{{ new Date().getFullYear() }} — <strong>Quasar Dev</strong></div>
+        <div>{{ new Date().getFullYear() }} — <strong>ETBSA</strong></div>
       </q-item>
     </q-footer>
   </q-layout>

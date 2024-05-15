@@ -3,7 +3,7 @@
     <q-btn
       label="Registrar Marca"
       dense
-      color="primary"
+      color="secondary"
       icon="add"
       @click="addVendor = true"
     />

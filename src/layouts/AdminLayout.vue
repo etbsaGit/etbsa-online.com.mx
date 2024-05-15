@@ -19,6 +19,14 @@
           color="red"
           @click="logout()"
         />
+        <q-btn
+          label="Home page"
+          icon="home"
+          class="q-ml-md"
+          size="sm"
+          color="cyan"
+          @click="toHome"
+        />
       </q-toolbar>
     </q-header>
 
@@ -43,6 +51,7 @@
 <script setup>
 import { useAuthStore } from "src/stores/auth";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 import { ref } from "vue";
 
 import AdminDrawerPerfil from "./components/AdminDrawerPerfil.vue";
@@ -53,7 +62,13 @@ const auth = useAuthStore();
 const { logout } = auth;
 const { user } = storeToRefs(auth);
 
+const router = useRouter();
+
 const toggleLeftDrawer = () => {
   leftDrawerOpen.value = !leftDrawerOpen.value;
+};
+
+const toHome = async () => {
+  router.push("/");
 };
 </script>

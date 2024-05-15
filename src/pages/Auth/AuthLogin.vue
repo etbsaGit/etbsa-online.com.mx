@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center bg-grey-2">
+  <q-page class="flex flex-center bg-grey-4">
     <q-card class="q-pa-md shadow-2 my_card" bordered>
       <q-card-section class="text-center">
         <q-img src="..\..\assets\etbsa_logo_agricola.webp" alt="Logo" />
@@ -9,10 +9,17 @@
       </q-card-section>
       <q-form @submit.prevent="login(form)" class="q-gutter-md">
         <q-card-section>
-          <q-input dense outlined v-model="form.email" label="Email Address" />
           <q-input
             dense
             outlined
+            color="secondary"
+            v-model="form.email"
+            label="Email Address"
+          />
+          <q-input
+            dense
+            outlined
+            color="secondary"
             class="q-mt-md"
             v-model="form.password"
             type="password"
@@ -22,7 +29,7 @@
         <q-card-section>
           <q-btn
             style="border-radius: 8px"
-            color="primary"
+            color="secondary"
             rounded
             size="md"
             label="Sign in"

@@ -10,6 +10,7 @@
         <q-input
           dense
           outlined
+          color="secondary"
           v-model="formVendor.name"
           label="Nombre del proveedor"
           lazy-rules
@@ -23,6 +24,7 @@
           clearable
           dense
           outlined
+          color="secondary"
           v-model="formVendor.file"
           label="imagen de la proveedor"
           lazy-rules
