@@ -1,7 +1,7 @@
 <template>
   <q-item>
     <q-item-section class="q-pt-xl text-center text-italic text-h5">
-      "¡No te quedes atrás! Descubre lo último en agricola y construcción"
+      ¡No te quedes atrás! Descubre lo último en agricola y construcción
     </q-item-section>
   </q-item>
   <q-item class="q-pa-xl bg-primary">
@@ -43,7 +43,7 @@
 
   <q-item>
     <q-item-section class="q-pt-lg text-center text-italic text-h5">
-      "¡Explora nuestras principales categorías!"
+      ¡Explora nuestras principales categorías!
     </q-item-section>
   </q-item>
 
