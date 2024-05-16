@@ -129,11 +129,13 @@
                       label="Tipo de caracteristica"
                       transition-show="jump-up"
                       transition-hide="jump-up"
+                      color="secondary"
                       filled
                       dense
                       emit-value
                       map-options
                       :rules="[(val) => val !== null || 'Obligatorio']"
+                      @input="updateFeatureValues(index)"
                     >
                       <template v-slot:before>
                         <q-avatar>
@@ -144,14 +146,22 @@
                             dense
                             @click="deleteFeature(index)"
                           />
-                        </q-avatar> </template
-                    ></q-select>
+                        </q-avatar>
+                      </template>
+                    </q-select>
                   </q-item-section>
                   <q-item-section>
-                    <q-input
+                    <q-select
+                      v-model="feature.value"
+                      :options="getValuesForFeature(feature.feature_id)"
+                      label="Valor"
+                      transition-show="jump-up"
+                      transition-hide="jump-up"
+                      color="secondary"
                       filled
                       dense
-                      v-model="feature.value"
+                      emit-value
+                      map-options
                       :rules="[(val) => val !== null || 'Obligatorio']"
                     />
                   </q-item-section>
@@ -171,6 +181,7 @@
               </q-expansion-item>
             </q-item-section>
           </q-item>
+
           <q-separator />
           <q-item>
             <q-item-section>
@@ -312,6 +323,25 @@ const filterForm = ref({
   brands: [],
 });
 
+const updateFeatureValues = (index) => {
+  const selectedFeatureId = filterForm.value.features[index].feature_id;
+  const values = getValuesForFeature(selectedFeatureId);
+  filterForm.value.features[index].values = values;
+};
+
+const getValuesForFeature = (featureId, ascending = true) => {
+  const feature = features.value.find((f) => f.id === featureId);
+  if (!feature) return [];
+
+  const uniqueValues = new Set();
+  feature.values.forEach((value) => uniqueValues.add(value.value));
+
+  const sortedValues = Array.from(uniqueValues).sort();
+  if (!ascending) sortedValues.reverse();
+
+  return sortedValues;
+};
+
 const addfeature = () => {
   filterForm.value.features.push({
     feature_id: null,
@@ -370,6 +400,7 @@ onMounted(() => {
     filterForm.value.categories.push(parseInt(query.categories));
   }
   getAll();
+
   filterProducts();
   router.push({ path: router.currentRoute.value.path, replace: true });
 });
