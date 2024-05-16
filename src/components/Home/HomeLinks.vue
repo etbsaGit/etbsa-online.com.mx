@@ -12,7 +12,7 @@
                 class="text-h5 text-weight-bold text-white"
                 style="text-shadow: 1px 1px 2px black"
               >
-                Experiencia 360
+                Experiencia 360°
               </h3>
             </strong>
           </div>
