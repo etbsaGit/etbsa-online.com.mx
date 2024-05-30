@@ -11,17 +11,8 @@
               <q-btn
                 dense
                 color="warning"
-                label="Sin filtros"
+                label="Limpiar filtros"
                 @click="resetFilter"
-              />
-            </q-item-section>
-            <q-item-section>
-              <q-btn
-                dense
-                color="info"
-                icon="search"
-                label="Buscar"
-                @click="filterProducts"
               />
             </q-item-section>
           </q-item>
@@ -200,13 +191,83 @@
               </q-expansion-item>
             </q-item-section>
           </q-item>
+          <q-separator></q-separator>
+          <q-item>
+            <q-item-section>
+              <q-btn
+                dense
+                color="info"
+                icon="search"
+                label="Buscar"
+                @click="filterProducts"
+              />
+            </q-item-section>
+          </q-item>
         </q-form>
       </q-list>
     </div>
     <div class="col-9 q-pa-md">
       <q-separator spaced />
-      <div class="row">
-        <q-card
+      <div class="row q-col-gutter-lg">
+        <div
+          class="col-xl-2 col-md-4 col-lg-3 col-sm-6 col-xs-12"
+          v-for="(product, index) in products"
+          :key="index"
+        >
+          <q-card
+            class="my-card"
+            bordered
+            style="height: 100%; max-width: 100%; border-radius: 10px"
+          >
+            <q-img
+              v-if="product.images[0]"
+              :src="product.images[0].realpath"
+              height="220px"
+            >
+              <q-chip>
+                <q-avatar>
+                  <img :src="product.vendor.logopath" />
+                </q-avatar>
+                <q-item-label>
+                  {{ product.vendor.name }}
+                </q-item-label>
+              </q-chip>
+            </q-img>
+            <q-img v-else src="../../assets/nonimage.png" height="220px">
+              <q-chip>
+                <q-avatar>
+                  <img :src="product.vendor.logopath" />
+                </q-avatar>
+                <q-item-label>
+                  {{ product.vendor.name }}
+                </q-item-label>
+              </q-chip>
+            </q-img>
+
+            <q-card-section>
+              <div class="">SKU: {{ product.sku }}</div>
+              <div class="text-h6">
+                {{ product.name }}
+              </div>
+            </q-card-section>
+
+            <q-card-section class="card-footer">
+              <div class="col-12">
+                <span class="text-h6">${{ product.sale_price }}</span>
+                <span class="text-h6 float-right">
+                  <q-btn
+                    label="See Details"
+                    rounded
+                    color="secondary"
+                    flat
+                    @click="reloadComponent(product.id)"
+                  ></q-btn>
+                </span>
+              </div>
+            </q-card-section>
+          </q-card>
+        </div>
+        <!-- <q-card
           class="col-2 my-card"
           v-for="(product, index) in products"
           :key="index"
@@ -279,7 +340,7 @@
               </q-card-actions>
             </q-card-section>
           </div>
-        </q-card>
+        </q-card> -->
       </div>
       <div class="q-pa-lg flex flex-center">
         <q-pagination
@@ -410,10 +471,19 @@ onMounted(() => {
 .my-card {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 1 calc(25% - 26px); /* Para mostrar 4 tarjetas por fila */
+  box-sizing: border-box;
+  min-width: 250px;
+}
+.my-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
 }
 
-.my-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+.card-footer {
+  margin-top: 0%; /* Empuja esta sección al fondo */
 }
 </style>

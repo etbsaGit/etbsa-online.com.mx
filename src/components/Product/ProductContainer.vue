@@ -38,10 +38,13 @@
         <img v-else src="../../assets/nonimage.png" />
       </q-item-section>
       <!-- -------------------------------------- -->
-      <q-item-section class="text-body1">
+      <q-item-section class="text-body2">
         <q-item>
           <q-item-section>
             <q-item-label lines="2">
+              <q-item>
+                <span class="text-overline"> SKU: {{ product.sku }} </span>
+              </q-item>
               <q-item>
                 <span class="text-h6 font-weight-bold">{{ product.name }}</span>
               </q-item>
