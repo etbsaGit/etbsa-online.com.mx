@@ -58,7 +58,7 @@
     </q-page-container>
 
     <q-page-sticky position="bottom-right" :offset="[40, 40]">
-      <q-btn round class="q-btn--highlight" @click="abrirWhatsApp">
+      <q-btn flat round class="q-btn--highlight" @click="abrirWhatsApp">
         <q-avatar size="100px">
           <img src="../assets/whatsapplogo.jpg" />
         </q-avatar>
