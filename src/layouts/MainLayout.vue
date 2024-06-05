@@ -57,6 +57,23 @@
       <router-view />
     </q-page-container>
 
+    <q-page-sticky position="bottom-right" :offset="[40, 40]">
+      <q-btn round class="q-btn--highlight" @click="abrirWhatsApp">
+        <q-avatar size="100px">
+          <img src="../assets/whatsapplogo.jpg" />
+        </q-avatar>
+        <q-tooltip
+          class="q-tooltip--custom bg-green text-body2"
+          transition-show="flip-right"
+          transition-hide="flip-left"
+          anchor="center left"
+          self="bottom end"
+        >
+          ¡Pide tu cotización ahora mismo!
+        </q-tooltip>
+      </q-btn>
+    </q-page-sticky>
+
     <q-footer elevated>
       <q-toolbar class="q-py-md bg-secondary">
         <q-toolbar-title class="text-h6 text-center">
@@ -120,5 +137,28 @@ const toLogin = async () => {
 const toAdmin = async () => {
   router.push("/admin");
 };
+
+const abrirWhatsApp = () => {
+  const newUrl = "https://wa.link/urpc3g";
+  window.open(newUrl, "_blank");
+};
 </script>
+
+<style scoped>
+.q-btn--highlight {
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.q-btn--highlight:hover {
+  background-color: #e0f7fa; /* Cambia este color según tus necesidades */
+  transform: scale(1.1); /* Ajusta el valor según la escala deseada */
+}
+
+.q-tooltip--custom {
+  background-color: #4caf50; /* Color de fondo del tooltip */
+  color: white; /* Color del texto del tooltip */
+  font-size: 16px; /* Tamaño del texto del tooltip */
+  border-radius: 4px; /* Bordes redondeados */
+}
+</style>
 
