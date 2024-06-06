@@ -2,12 +2,9 @@
   <q-layout view="hHh lpR fff">
     <q-header elevated class="bg-primary text-secondary" height-hint="98">
       <q-toolbar>
-        <q-toolbar-title>
+        <q-toolbar-title class="q-pa-sm">
           <router-link to="/">
-            <q-img
-              src="..\assets\etbsa_logo_agricola.webp"
-              style="max-width: 20%"
-            />
+            <q-img src="..\assets\logo.gif" style="max-width: 20%" />
           </router-link>
         </q-toolbar-title>
         <q-space />

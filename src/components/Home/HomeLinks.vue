@@ -3,7 +3,7 @@
     <q-item-section class="q-pa-md bg-primary">
       <q-card class="my-card" bordered>
         <q-img
-          src="../../assets/360.jpg"
+          src="../../assets/tractor.gif"
           style="height: 400px; max-width: 100%"
         >
           <div class="absolute-bottom text-subtitle2 text-center">

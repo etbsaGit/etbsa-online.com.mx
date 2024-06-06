@@ -1,6 +1,6 @@
 <template>
-  <div class="row bg-primary">
-    <div class="col-3 q-pa-sm">
+  <div class="row justify-center q-pa-xl bg-primary">
+    <div class="col-3">
       <q-list dense bordered separator style="border-radius: 10px">
         <q-form ref="myForm" greedy>
           <q-item>
@@ -59,44 +59,6 @@
                     />
                   </q-item-section>
                 </q-item>
-
-                <!-- <q-expansion-item
-                  v-for="(category1, index) in category.children_recursive"
-                  :key="index"
-                  :header-inset-level="1"
-                  :label="category1.name"
-                >
-                  <template v-slot:header>
-                    <q-item-section>
-                      <q-item-label>
-                        <q-toggle
-                          color="blue"
-                          :label="category1.name"
-                          v-model="filterForm.categories"
-                          :val="category1.id"
-                      /></q-item-label>
-                    </q-item-section>
-                  </template>
-
-                  <q-expansion-item
-                    v-for="(category2, index) in category1.children_recursive"
-                    :key="index"
-                    :header-inset-level="2"
-                    :label="category2.name"
-                  >
-                    <template v-slot:header>
-                      <q-item-section>
-                        <q-item-label>
-                          <q-toggle
-                            color="blue"
-                            :label="category2.name"
-                            v-model="filterForm.categories"
-                            :val="category2.id"
-                        /></q-item-label>
-                      </q-item-section>
-                    </template>
-                  </q-expansion-item>
-                </q-expansion-item> -->
               </q-expansion-item>
             </q-item-section>
           </q-item>
@@ -206,9 +168,8 @@
         </q-form>
       </q-list>
     </div>
-    <div class="col-9 q-pa-md">
-      <q-separator spaced />
-      <div class="row q-col-gutter-lg">
+    <div class="col-9 q-px-md">
+      <div class="row q-col-gutter-md">
         <div
           class="col-xl-2 col-md-4 col-lg-3 col-sm-6 col-xs-12"
           v-for="(product, index) in products"
@@ -476,7 +437,7 @@ onMounted(() => {
   justify-content: space-between;
   flex: 1 1 calc(25% - 26px); /* Para mostrar 4 tarjetas por fila */
   box-sizing: border-box;
-  min-width: 250px;
+  min-width: 200px;
 }
 .my-card:hover {
   transform: scale(1.03);
