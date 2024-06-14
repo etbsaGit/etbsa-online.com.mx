@@ -198,7 +198,7 @@ const onRowDelete = (row) => {
 };
 
 const getBrands = async () => {
-  let res = await sendRequest("GET", null, "/api/brands", "");
+  let res = await sendRequest("GET", null, "/api/brand", "");
   brands.value = res;
 };
 
@@ -216,7 +216,7 @@ const storeBrand = async () => {
   const data = {
     ...add.value.formBrand,
   };
-  let res = await sendRequest("POST", data, "/api/brands", "");
+  let res = await sendRequest("POST", data, "/api/brand", "");
   addBrand.value = false;
   getBrands();
 };
@@ -238,7 +238,7 @@ const updateBrand = async () => {
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/brands/" + selectedBrand.value.id,
+    "/api/brand/" + selectedBrand.value.id,
     ""
   );
   editBrand.value = false;
@@ -249,7 +249,7 @@ const delBrand = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/brands/" + selectedBrand.value.id,
+    "/api/brand/" + selectedBrand.value.id,
     ""
   );
   deleteBrand.value = false;

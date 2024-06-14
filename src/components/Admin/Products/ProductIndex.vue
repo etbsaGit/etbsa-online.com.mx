@@ -351,7 +351,7 @@ const onRowDelete = (row) => {
 };
 
 const getProducts = async () => {
-  let res = await sendRequest("GET", null, "/api/products", "");
+  let res = await sendRequest("GET", null, "/api/product", "");
   products.value = res;
 };
 
@@ -369,7 +369,7 @@ const storeProduct = async () => {
   const data = {
     ...add.value.formProduct,
   };
-  let res = await sendRequest("POST", data, "/api/products", "");
+  let res = await sendRequest("POST", data, "/api/product", "");
   addProduct.value = false;
   getProducts();
 };
@@ -391,7 +391,7 @@ const updateProduct = async () => {
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/products/" + selectedProduct.value.id,
+    "/api/product/" + selectedProduct.value.id,
     ""
   );
   editProduct.value = false;
@@ -402,7 +402,7 @@ const delProduct = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/products/" + selectedProduct.value.id,
+    "/api/product/" + selectedProduct.value.id,
     ""
   );
   deleteProduct.value = false;

@@ -206,7 +206,7 @@ const onRowDelete = (row) => {
 };
 
 const getVendors = async () => {
-  let res = await sendRequest("GET", null, "/api/vendors", "");
+  let res = await sendRequest("GET", null, "/api/vendor", "");
   vendors.value = res;
 };
 
@@ -224,7 +224,7 @@ const storeVendor = async () => {
   const data = {
     ...add.value.formVendor,
   };
-  let res = await sendRequest("POST", data, "/api/vendors", "");
+  let res = await sendRequest("POST", data, "/api/vendor", "");
   addVendor.value = false;
   getVendors();
 };
@@ -246,7 +246,7 @@ const updateVendor = async () => {
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/vendors/" + selectedVendor.value.id,
+    "/api/vendor/" + selectedVendor.value.id,
     ""
   );
   editVendor.value = false;
@@ -257,7 +257,7 @@ const delVendor = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/vendors/" + selectedVendor.value.id,
+    "/api/vendor/" + selectedVendor.value.id,
     ""
   );
   deleteVendor.value = false;

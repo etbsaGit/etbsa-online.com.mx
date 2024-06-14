@@ -189,7 +189,7 @@ const onRowDelete = (row) => {
 };
 
 const getFeatures = async () => {
-  let res = await sendRequest("GET", null, "/api/features", "");
+  let res = await sendRequest("GET", null, "/api/feature", "");
   features.value = res;
 };
 
@@ -207,7 +207,7 @@ const storeFeature = async () => {
   const data = {
     ...add.value.formFeature,
   };
-  let res = await sendRequest("POST", data, "/api/features", "");
+  let res = await sendRequest("POST", data, "/api/feature", "");
   addFeature.value = false;
   getFeatures();
 };
@@ -229,7 +229,7 @@ const updateFeature = async () => {
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/features/" + selectedFeature.value.id,
+    "/api/feature/" + selectedFeature.value.id,
     ""
   );
   editFeature.value = false;
@@ -240,7 +240,7 @@ const delFeature = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/features/" + selectedFeature.value.id,
+    "/api/feature/" + selectedFeature.value.id,
     ""
   );
   deleteFeature.value = false;

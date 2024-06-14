@@ -275,7 +275,7 @@ const onRowDelete = (row) => {
 };
 
 const getCategories = async () => {
-  let res = await sendRequest("GET", null, "/api/categories", "");
+  let res = await sendRequest("GET", null, "/api/categorie", "");
   categories.value = res;
 };
 
@@ -293,7 +293,7 @@ const storeCategory = async () => {
   const data = {
     ...add.value.formCategory,
   };
-  let res = await sendRequest("POST", data, "/api/categories", "");
+  let res = await sendRequest("POST", data, "/api/categorie", "");
   addCategory.value = false;
   getCategories();
 };
@@ -315,7 +315,7 @@ const updateCategory = async () => {
   let res = await sendRequest(
     "PUT",
     data,
-    "/api/categories/" + selectedCategory.value.id,
+    "/api/categorie/" + selectedCategory.value.id,
     ""
   );
   editCategory.value = false;
@@ -326,7 +326,7 @@ const delCategory = async () => {
   let res = await sendRequest(
     "DELETE",
     null,
-    "/api/categories/" + selectedCategory.value.id,
+    "/api/categorie/" + selectedCategory.value.id,
     ""
   );
   deleteCategory.value = false;
