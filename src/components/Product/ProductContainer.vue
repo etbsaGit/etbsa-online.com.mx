@@ -6,301 +6,279 @@
   >
     <q-spinner-grid color="teal" />
   </div>
-  <div v-else class="row justify-center q-pa-xl bg-primary">
-    <q-item class="col-9" style="height: 1000px">
-      <q-item-section>
-        <q-carousel
-          v-if="product.images[0]"
-          transition-prev="scale"
-          transition-next="scale"
-          swipeable
-          animated
-          v-model="slide"
-          thumbnails
-          infinite
-          style="
-            border-radius: 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 60%;
-          "
+  <div v-else class="grid-container q-pa-xl">
+    <div>
+      <span class="text-h6 font-weight-bold">{{ product.name }}</span>
+      <q-carousel
+        v-if="product.images[0]"
+        transition-prev="scale"
+        transition-next="scale"
+        swipeable
+        animated
+        v-model="slide"
+        thumbnails
+        infinite
+      >
+        <q-carousel-slide
+          v-for="(image, index) in product.images"
+          :key="index"
+          :name="index"
+          :img-src="image.realpath"
         >
-          <q-carousel-slide
-            v-for="(image, index) in product.images"
-            :key="index"
-            :name="index"
-            :img-src="image.realpath"
+          <q-btn
+            flat
+            @click="openImageInNewTab(image.realpath)"
+            icon="open_in_new"
+            class="absolute-top-right"
+            color="secondary"
+          />
+        </q-carousel-slide>
+      </q-carousel>
+      <img v-else src="../../assets/nonimage.png" />
+      <q-item class="q-pb-lg pulsar">
+        <q-item-section>
+          <q-card class="q-card--bordered q-card--flat q-mt-lg q-ml-lg">
+            <q-card-section style="color: red">
+              <div>IMPORTANTE</div>
+              <div>
+                *Costos de envío/flete se definen de acuerdo a la zona **NO
+                INCLUIDO EN EL PRECIO PUBLICADO***
+              </div>
+              <div>
+                *El costo del producto puede variar sin previo aviso, favor de
+                verificar con nosotros antes de apartar*
+              </div>
+              <div>
+                *Etbsa Nunca le Solicitara que deposite dinero sin antes haber
+                visto el Tractor*
+              </div>
+              <div>
+                *Etbsa realiza todas las operaciones y tramites de venta dentro
+                de sus instalaciones oficiales las ubicaciones las puede
+                consultar en la pagina oficial
+                <strong>www.etbsa.com.mx</strong>*
+              </div>
+            </q-card-section>
+          </q-card>
+        </q-item-section>
+      </q-item>
+    </div>
+    <div>
+      <q-item>
+        <q-item-section>
+          <q-item-label>
+            <q-item>
+              <span class="text-overline"> SKU: {{ product.sku }} </span>
+            </q-item>
+            <q-item>
+              <span class="text-h6 font-weight-bold">{{ product.name }}</span>
+            </q-item>
+            <q-item>
+              <span class="text-h5 font-weight-bold text-secondary">
+                $ {{ product.sale_price }}
+              </span>
+            </q-item>
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-chip size="lg">
+            <q-avatar size="md">
+              <img :src="product.vendor.logopath" />
+            </q-avatar>
+            <q-item-label>
+              {{ product.vendor.name }}
+            </q-item-label>
+          </q-chip>
+        </q-item-section>
+        <q-item-section>
+          <q-chip size="lg">
+            <q-avatar size="md">
+              <img class="bg-white" :src="product.brand.logopath" />
+            </q-avatar>
+            <q-item-label>
+              {{ product.brand.name }}
+            </q-item-label>
+          </q-chip>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-btn
+            class="pulsar"
+            @click="abrir3D"
+            v-if="tieneTractores(product.categories)"
           >
-            <q-btn
-              flat
-              @click="openImageInNewTab(image.realpath)"
-              icon="open_in_new"
-              class="absolute-top-right"
-              color="secondary"
-            />
-          </q-carousel-slide>
-        </q-carousel>
-        <img
-          style="
-            border-radius: 20px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 60%;
-          "
-          v-else
-          src="../../assets/nonimage.png"
+            <div class="grid-container">
+              <div>
+                <q-avatar size="150px" rounded>
+                  <img src="../../../src/assets/tractor-2.gif" />
+                </q-avatar>
+              </div>
+              <div>
+                <span>
+                  Consulta el folleto y la vista 3D de nuestros equipos
+                </span>
+                <span caption>
+                  haz click para consultar
+                  <q-icon name="ads_click" />
+                </span>
+              </div>
+            </div>
+          </q-btn>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-input
+          v-model="product.quantity"
+          outlined
+          readonly
+          type="number"
+          label="Cantidad disponible"
+          dense
         />
-        <q-item
-          class="q-pb-lg pulsar"
-          style="position: absolute; left: 0; bottom: 0; width: 50%"
-        >
-          <q-item-section>
-            <q-card class="q-card--bordered q-card--flat q-mt-lg q-ml-lg">
-              <q-card-section style="color: red">
-                <div>IMPORTANTE</div>
-                <div>
-                  *Costos de envío/flete se definen de acuerdo a la zona **NO
-                  INCLUIDO EN EL PRECIO PUBLICADO***
-                </div>
-                <div>
-                  *El costo del producto puede variar sin previo aviso, favor de
-                  verificar con nosotros antes de apartar*
-                </div>
-                <div>
-                  *Etbsa Nunca le Solicitara que deposite dinero sin antes haber
-                  visto el Tractor*
-                </div>
-                <div>
-                  *Etbsa realiza todas las operaciones y tramites de venta
-                  dentro de sus instalaciones oficiales las ubicaciones las
-                  puede consultar en la pagina oficial
-                  <strong>www.etbsa.com.mx</strong>*
-                </div>
-              </q-card-section>
-            </q-card>
-          </q-item-section>
-        </q-item>
-      </q-item-section>
-
-      <!-- -------------------------------------- -->
-      <div style="position: absolute; top: 0; right: 0; width: 50%">
-        <q-item-section class="text-body2">
-          <q-item>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-item clickable v-ripple @click="abrirWhatsApp">
+            <q-item-section side>
+              <q-avatar rounded size="48px">
+                <img src="../../../src/assets/whatsapplogo.jpg" />
+              </q-avatar>
+            </q-item-section>
             <q-item-section>
+              <q-item-label>Whats App</q-item-label>
               <q-item-label>
-                <q-item>
-                  <span class="text-overline"> SKU: {{ product.sku }} </span>
-                </q-item>
-                <q-item>
-                  <span class="text-h6 font-weight-bold">{{
-                    product.name
-                  }}</span>
-                </q-item>
-                <q-item>
-                  <span class="text-h5 font-weight-bold text-secondary">
-                    $ {{ product.sale_price }}
-                  </span>
-                </q-item>
+                Envie un Mensaje, Con gusto lo atenderemos
               </q-item-label>
             </q-item-section>
           </q-item>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section>
+          <q-card class="bg-primary">
+            <q-tabs
+              v-model="tab"
+              dense
+              class="text-secondary"
+              active-color="secondary"
+              indicator-color="secondary"
+              align="left"
+              narrow-indicator
+            >
+              <q-tab name="description" label="Descripcion" />
+              <q-tab name="features" label="Caracteristicas" />
+            </q-tabs>
 
-          <q-item>
-            <q-item-section>
-              <q-chip size="lg">
-                <q-avatar size="md">
-                  <img :src="product.vendor.logopath" />
-                </q-avatar>
-                <q-item-label>
-                  {{ product.vendor.name }}
-                </q-item-label>
-              </q-chip>
-            </q-item-section>
-            <q-item-section>
-              <q-chip size="lg">
-                <q-avatar size="md">
-                  <img class="bg-white" :src="product.brand.logopath" />
-                </q-avatar>
-                <q-item-label>
-                  {{ product.brand.name }}
-                </q-item-label>
-              </q-chip>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-btn
-                class="pulsar"
-                @click="abrir3D"
-                v-if="tieneTractores(product.categories)"
-              >
+            <q-separator />
+
+            <q-tab-panels
+              v-model="tab"
+              animated
+              class="bg-primary text-secondary"
+            >
+              <q-tab-panel name="description">
                 <q-item>
                   <q-item-section>
-                    <q-avatar size="150px" rounded>
-                      <img src="../../../src/assets/tractor-2.gif" />
-                    </q-avatar>
-                  </q-item-section>
-                  <q-item-section>
-                    <q-item-label>
-                      Consulta el folleto y la vista 3D de nuestros equipos
-                    </q-item-label>
-                    <q-item-label caption>
-                      haz click para consultar
-                      <q-icon name="ads_click" />
+                    <q-item-label class="font-weight-bold">
+                      {{ product.description }}
                     </q-item-label>
                   </q-item-section>
                 </q-item>
-              </q-btn>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-input
-              v-model="product.quantity"
-              outlined
-              readonly
-              type="number"
-              label="Cantidad disponible"
-              dense
-            />
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-item clickable v-ripple @click="abrirWhatsApp">
-                <q-item-section side>
-                  <q-avatar rounded size="48px">
-                    <img src="../../../src/assets/whatsapplogo.jpg" />
-                  </q-avatar>
-                </q-item-section>
-                <q-item-section>
-                  <q-item-label>Whats App</q-item-label>
-                  <q-item-label>
-                    Envie un Mensaje, Con gusto lo atenderemos
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-item-section>
-          </q-item>
-          <q-item>
-            <q-item-section>
-              <q-card class="bg-primary">
-                <q-tabs
-                  v-model="tab"
-                  dense
-                  class="text-secondary"
-                  active-color="secondary"
-                  indicator-color="secondary"
-                  align="left"
-                  narrow-indicator
-                >
-                  <q-tab name="description" label="Descripcion" />
-                  <q-tab name="features" label="Caracteristicas" />
-                </q-tabs>
+              </q-tab-panel>
 
-                <q-separator />
-
-                <q-tab-panels
-                  v-model="tab"
-                  animated
-                  class="bg-primary text-secondary"
-                >
-                  <q-tab-panel name="description">
-                    <q-item>
-                      <q-item-section>
-                        <q-item-label class="font-weight-bold">
-                          {{ product.description }}
-                        </q-item-label>
-                      </q-item-section>
-                    </q-item>
-                  </q-tab-panel>
-
-                  <q-tab-panel name="features">
-                    <div class="q-pa-md">
-                      <div v-if="product.features.length > 0">
-                        <q-list>
-                          <q-item
-                            v-for="feature in product.features"
-                            :key="feature.id"
-                            class="q-pa-xs"
+              <q-tab-panel name="features">
+                <div class="q-pa-md">
+                  <div v-if="product.features.length > 0">
+                    <q-list>
+                      <q-item
+                        v-for="feature in product.features"
+                        :key="feature.id"
+                        class="q-pa-xs"
+                      >
+                        <q-item-section>
+                          <q-item-label
+                            overline
+                            class="text-uppercase font-weight-bold"
                           >
-                            <q-item-section>
-                              <q-item-label
-                                overline
-                                class="text-uppercase font-weight-bold"
-                              >
-                                <strong>
-                                  {{ feature.name }}
-                                </strong>
-                              </q-item-label>
-                              <q-item-label>{{
-                                feature.pivot.value
-                              }}</q-item-label>
-                            </q-item-section>
-                          </q-item>
-                        </q-list>
-                      </div>
-                      <div v-else>
-                        <p class="text-body1">
-                          No hay características disponibles.
-                        </p>
-                      </div>
-                    </div>
-                  </q-tab-panel>
-                </q-tab-panels>
-              </q-card>
-            </q-item-section>
-          </q-item>
-
-          <!-- <q-item>
+                            <strong>
+                              {{ feature.name }}
+                            </strong>
+                          </q-item-label>
+                          <q-item-label>{{ feature.pivot.value }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+                    </q-list>
+                  </div>
+                  <div v-else>
+                    <p class="text-body1">
+                      No hay características disponibles.
+                    </p>
+                  </div>
+                </div>
+              </q-tab-panel>
+            </q-tab-panels>
+          </q-card>
+        </q-item-section>
+      </q-item>
+      <!-- <q-item>
             <q-btn color="primary" label="AGREGAR AL CARRITO" class="q-mr-sm" />
           </q-item>
           <q-item>
             <q-btn color="amber" label="AGREGAR A LA LISTA DE DESEOS" />
           </q-item> -->
-        </q-item-section>
-      </div>
-    </q-item>
+    </div>
   </div>
-  <q-item class="q-pa-xl bg-primary">
-    <q-item-section class="q-pa-sm" v-for="(deal, index) in deals" :key="index">
-      <q-card class="my-card" bordered>
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div class="text-overline">{{ deal.vendor.name }}</div>
-            <div class="text-subtitle1 q-mt-sm q-mb-xs">
-              {{ deal.brand.name }}
-            </div>
-            <div class="text-caption text-secondary">{{ deal.name }}</div>
-          </q-card-section>
-
-          <q-card-section class="col-6 flex flex-center">
-            <q-img
-              class="rounded-borders"
-              v-if="deal.images[0]"
-              :src="deal.images[0].realpath"
-            />
-            <q-img
-              class="rounded-borders"
-              v-else
-              src="../../assets/nonimage.png"
-            />
-          </q-card-section>
+  <q-item>
+    <q-item-section class="q-pt-xl text-center text-italic text-h5">
+      ¡No te puedes perder estos productos!
+    </q-item-section>
+  </q-item>
+  <div class="grid-container q-pa-xl">
+    <q-card
+      class="my-card"
+      bordered
+      v-for="(deal, index) in deals"
+      :key="index"
+    >
+      <q-card-section horizontal>
+        <q-card-section class="q-pt-xs">
+          <div class="text-overline">{{ deal.vendor.name }}</div>
+          <div class="text-subtitle1 q-mt-sm q-mb-xs">
+            {{ deal.brand.name }}
+          </div>
+          <div class="text-caption text-secondary">{{ deal.name }}</div>
         </q-card-section>
 
-        <q-card-actions vertical>
-          <q-btn
-            dense
-            class="view-button"
-            label="Ver"
-            color="secondary"
-            @click="reloadComponent(deal.id)"
+        <q-card-section class="col-6 flex flex-center">
+          <q-img
+            class="rounded-borders"
+            v-if="deal.images[0]"
+            :src="deal.images[0].realpath"
           />
-        </q-card-actions>
-      </q-card>
-    </q-item-section>
+          <q-img
+            class="rounded-borders"
+            v-else
+            src="../../assets/nonimage.png"
+          />
+        </q-card-section>
+      </q-card-section>
+
+      <q-card-actions vertical>
+        <q-btn
+          dense
+          class="view-button"
+          label="Ver"
+          color="secondary"
+          @click="reloadComponent(deal.id)"
+        />
+      </q-card-actions>
+    </q-card>
+  </div>
+  <q-item class="q-pa-xl bg-primary">
+    <q-item-section class="q-pa-sm"> </q-item-section>
   </q-item>
 </template>
 
@@ -381,12 +359,22 @@ watch(
 </script>
 
 <style>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Ajusta el tamaño mínimo aquí 200px para que sean 6 y 300px px*/
+  gap: 10px;
+}
+
 .my-card {
-  height: 100%;
-  max-height: auto;
+  height: 100%; /* Para asegurar que todas las tarjetas tengan la misma altura */
+  box-sizing: border-box;
+  font-size: 1.1em; /* Tamaño de fuente más pequeño */
+  transition: transform 0.3s, box-shadow 0.3s;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .my-card:hover {

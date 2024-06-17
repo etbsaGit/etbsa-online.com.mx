@@ -1,60 +1,62 @@
 <template>
-  <q-item>
-    <q-item-section class="q-pa-md bg-primary">
-      <q-card class="my-card" bordered>
-        <q-img
-          src="../../assets/tractor.gif"
-          style="height: 400px; max-width: 100%"
-        >
-          <div class="absolute-bottom text-subtitle2 text-center">
-            <strong>
-              <h3
-                class="text-h5 text-weight-bold text-white"
-                style="text-shadow: 1px 1px 2px black"
-              >
-                Experiencia 360°
-              </h3>
-            </strong>
-          </div>
-        </q-img>
-        <q-card-actions vertical>
-          <q-btn
-            class="view-button"
-            label="Explorar"
-            color="secondary"
-            @click="redirect360()"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-item-section>
-    <q-item-section class="q-pa-md bg-primary">
-      <q-card class="my-card" bordered>
-        <q-img
-          src="../../assets/Refacciones.jpg"
-          style="height: 400px; max-width: 100%"
-        >
-          <div class="absolute-bottom text-subtitle2 text-center">
-            <strong>
-              <h3
-                class="text-h5 text-weight-bold text-white"
-                style="text-shadow: 1px 1px 2px black"
-              >
-                Refacciones
-              </h3>
-            </strong>
-          </div>
-        </q-img>
-        <q-card-actions vertical>
-          <q-btn
-            class="view-button"
-            label="Explorar"
-            color="secondary"
-            @click="redirectRefacciones()"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-item-section>
-  </q-item>
+  <!-- <q-item>
+    <q-item-section class="q-pa-md bg-primary"> -->
+  <div class="grid-container q-pa-xl">
+    <q-card class="my-card" bordered>
+      <q-img
+        src="../../assets/tractor.gif"
+        style="height: 400px; max-width: 100%"
+      >
+        <div class="absolute-bottom text-subtitle2 text-center">
+          <strong>
+            <h3
+              class="text-h5 text-weight-bold text-white"
+              style="text-shadow: 1px 1px 2px black"
+            >
+              Experiencia 360°
+            </h3>
+          </strong>
+        </div>
+      </q-img>
+      <q-card-actions vertical>
+        <q-btn
+          class="view-button"
+          label="Explorar"
+          color="secondary"
+          @click="redirect360()"
+        />
+      </q-card-actions>
+    </q-card>
+    <!-- </q-item-section>
+      <q-item-section class="q-pa-md bg-primary"> -->
+    <q-card class="my-card" bordered>
+      <q-img
+        src="../../assets/Refacciones.jpg"
+        style="height: 400px; max-width: 100%"
+      >
+        <div class="absolute-bottom text-subtitle2 text-center">
+          <strong>
+            <h3
+              class="text-h5 text-weight-bold text-white"
+              style="text-shadow: 1px 1px 2px black"
+            >
+              Refacciones
+            </h3>
+          </strong>
+        </div>
+      </q-img>
+      <q-card-actions vertical>
+        <q-btn
+          class="view-button"
+          label="Explorar"
+          color="secondary"
+          @click="redirectRefacciones()"
+        />
+      </q-card-actions>
+    </q-card>
+  </div>
+  <!-- </q-item-section>
+  </q-item> -->
 </template>
 
 <script setup>
@@ -77,12 +79,22 @@ const redirect360 = async () => {
 
 
 <style>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Ajusta el tamaño mínimo aquí 200px para que sean 6 y 300px px*/
+  gap: 20px;
+}
+
 .my-card {
-  height: 100%;
-  max-height: auto;
+  height: 100%; /* Para asegurar que todas las tarjetas tengan la misma altura */
+  box-sizing: border-box;
+  font-size: 1.1em; /* Tamaño de fuente más pequeño */
+  transition: transform 0.3s, box-shadow 0.3s;
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .my-card:hover {

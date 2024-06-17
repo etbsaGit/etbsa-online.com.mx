@@ -70,3 +70,33 @@ import { ref } from "vue";
 const slide = ref(1);
 const autoplay = ref(true);
 </script>
+
+<style scoped>
+.text-h3 {
+  font-size: 50px; /* Tamaño de fuente para títulos */
+}
+
+.text-h4 {
+  font-size: 40px; /* Tamaño de fuente para subtítulos */
+}
+
+.custom-caption {
+  background-color: transparent; /* Fondo completamente transparente */
+  padding: 10px; /* Añade espacio alrededor del texto */
+}
+
+@media (max-width: 768px) {
+  .text-h3 {
+    font-size: 50px; /* Reducción de tamaño de fuente para dispositivos móviles */
+  }
+
+  .text-h4 {
+    font-size: 20px; /* Reducción de tamaño de fuente para dispositivos móviles */
+  }
+
+  .custom-caption {
+    background-color: transparent; /* Fondo completamente transparente */
+    padding: 10px; /* Añade espacio alrededor del texto */
+  }
+}
+</style>
