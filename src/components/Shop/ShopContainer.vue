@@ -194,20 +194,20 @@
       >
         <q-chip>
           <q-avatar>
-            <img :src="product.vendor.logopath" />
+            <img :src="product.vendor?.logopath" />
           </q-avatar>
           <q-item-label>
-            {{ product.vendor.name }}
+            {{ product.vendor?.name }}
           </q-item-label>
         </q-chip>
       </q-img>
       <q-img v-else src="../../assets/nonimage.png" height="220px">
         <q-chip>
           <q-avatar>
-            <img :src="product.vendor.logopath" />
+            <img :src="product.vendor?.logopath" />
           </q-avatar>
           <q-item-label>
-            {{ product.vendor.name }}
+            {{ product.vendor?.name }}
           </q-item-label>
         </q-chip>
       </q-img>

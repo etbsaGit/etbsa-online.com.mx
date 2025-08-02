@@ -90,14 +90,14 @@
         <q-item-section>
           <a
             class="text-green-4"
-            href="https://wa.link/urpc3g"
+            href="https://wa.link/kp4ql2"
             style="text-decoration: none"
           >
             <q-icon name="chat" />
             <strong> ¡Contáctanos!</strong>
           </a>
           <div class="text-white">
-            <strong>WhatsApp y teléfono :</strong> 461-138-3265
+            <strong>WhatsApp y teléfono :</strong> 461-343-9874
           </div>
         </q-item-section>
       </q-item>
@@ -136,7 +136,7 @@ const toAdmin = async () => {
 };
 
 const abrirWhatsApp = () => {
-  const newUrl = "https://wa.link/urpc3g";
+  const newUrl = "https://wa.link/kp4ql2";
   window.open(newUrl, "_blank");
 };
 </script>

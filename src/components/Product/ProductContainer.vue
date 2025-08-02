@@ -85,10 +85,10 @@
         <q-item-section>
           <q-chip size="lg">
             <q-avatar size="md">
-              <img :src="product.vendor.logopath" />
+              <img :src="product.vendor?.logopath" />
             </q-avatar>
             <q-item-label>
-              {{ product.vendor.name }}
+              {{ product.vendor?.name }}
             </q-item-label>
           </q-chip>
         </q-item-section>
@@ -245,7 +245,7 @@
     >
       <q-card-section horizontal>
         <q-card-section class="q-pt-xs">
-          <div class="text-overline">{{ deal.vendor.name }}</div>
+          <div class="text-overline">{{ deal.vendor?.name }}</div>
           <div class="text-subtitle1 q-mt-sm q-mb-xs">
             {{ deal.brand.name }}
           </div>
@@ -295,7 +295,7 @@ const slide = ref(0);
 const tab = ref("description");
 
 const abrirWhatsApp = () => {
-  const newUrl = "https://wa.link/urpc3g";
+  const newUrl = "https://wa.link/kp4ql2";
   window.open(newUrl, "_blank");
 };
 
