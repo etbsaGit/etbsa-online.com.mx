@@ -1,6 +1,6 @@
 <template>
   <home-carosuel />
-  <home-cards />
+  <!-- <home-cards /> -->
   <home-links />
 </template>
 

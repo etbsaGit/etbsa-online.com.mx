@@ -54,6 +54,31 @@
         />
       </q-card-actions>
     </q-card>
+    <q-card class="my-card" bordered>
+      <q-img
+        src="../../assets/seminuevos.jpg"
+        style="height: 400px; max-width: 100%"
+      >
+        <div class="absolute-bottom text-subtitle2 text-center">
+          <strong>
+            <h3
+              class="text-h5 text-weight-bold text-white"
+              style="text-shadow: 1px 1px 2px black"
+            >
+              Semi-nuevos
+            </h3>
+          </strong>
+        </div>
+      </q-img>
+      <q-card-actions vertical>
+        <q-btn
+          class="view-button"
+          label="Explorar"
+          color="secondary"
+          @click="redirectSemiNuevos()"
+        />
+      </q-card-actions>
+    </q-card>
   </div>
   <!-- </q-item-section>
   </q-item> -->
@@ -74,6 +99,10 @@ const redirectRefacciones = async () => {
 
 const redirect360 = async () => {
   window.open("https://360.etbsa.com.mx/", "_blank");
+};
+
+const redirectSemiNuevos = async () => {
+  window.open("https://seminuevos.etbsa-online.com.mx/", "_blank");
 };
 </script>
 

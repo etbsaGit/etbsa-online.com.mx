@@ -9,7 +9,7 @@
         </q-toolbar-title>
         <q-space />
         <div v-if="user">Bienvenido {{ user.name }}</div>
-        <q-btn
+        <!-- <q-btn
           v-if="user"
           label="Logout"
           class="q-ml-md"
@@ -34,12 +34,12 @@
           class="q-ml-md"
           size="sm"
           @click="toAdmin"
-        ></q-btn>
+        ></q-btn> -->
       </q-toolbar>
 
       <q-separator></q-separator>
 
-      <q-tabs
+      <!-- <q-tabs
         align="center"
         dense
         active-color="tertiary"
@@ -47,7 +47,7 @@
       >
         <q-route-tab to="/" label="Home" />
         <q-route-tab to="/shop" label="Catálogo" />
-      </q-tabs>
+      </q-tabs> -->
     </q-header>
 
     <q-page-container>
